@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block head %}
+    <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename = 'css/main_map_page.css') }}">
+{% endblock %}
+
+{% block body %}
+    <button class="btn btn-primary btn-sm btn-transparent" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar">
+        <img class="sidebar-button-image" src="../static/images/offcanvas_sidebar_action_button.svg"/>
+    </button>
+
+    <div class="offcanvas offcanvas-start" tabindex="-1" data-bs-backdrop="false" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
+        <button class="btn btn-primary btn-sm btn-transparent mb-3" type="button" data-bs-toggle="offcanvas" aria-label="Close">
+            <img class="sidebar-button-image offcanvas-button-image-left" src="../static/images/offcanvas_sidebar_action_button.svg"/>
+        </button>
+        <div class="d-flex justify-content-center">
+            <button type="button" class="btn btn-outline-danger btn-sm">
+                Click here to login as a staff
+            </button>
+        </div>
+        <hr>
+    </div>
+    <script src="./static/javascript/toggle_sidebar_activation_button.js"></script>
+{% endblock %}
+
+
