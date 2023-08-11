@@ -7,7 +7,17 @@
     .sidebar-button-image {
         height: 30px;
         width: 30px;
-  }
+    }
+}
+
+.malvern-college-crest {
+    max-height: 150px;
+}
+
+@media (max-height: 900px) {
+    .sidebar-button-image {
+        max-height: 90px;
+    }
 }
 
 .offcanvas-button-image-left {
@@ -24,4 +34,8 @@
 
 Body {
     background-color: Yellow;
+}
+
+.form-group {
+    text-align: center;
 }

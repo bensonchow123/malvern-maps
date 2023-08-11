@@ -6,19 +6,95 @@
 
 {% block body %}
     <button class="btn btn-primary btn-sm btn-transparent" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar">
-        <img class="sidebar-button-image" src="../static/images/offcanvas_sidebar_action_button.svg"/>
+        <img class="sidebar-button-image" src="../static/images/offcanvas_sidebar_action_button.svg" alt="Sidebar icon"/>
     </button>
 
-    <div class="offcanvas offcanvas-start" tabindex="-1" data-bs-backdrop="false" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
-        <button class="btn btn-primary btn-sm btn-transparent mb-3" type="button" data-bs-toggle="offcanvas" aria-label="Close">
+    <div class="offcanvas offcanvas-start {{ 'show' if open_sidebar else '' }}" tabindex="-1" data-bs-backdrop="false" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
+        <button class="btn btn-primary btn-sm btn-transparent mb-2" type="button" data-bs-toggle="offcanvas" aria-label="Close">
             <img class="sidebar-button-image offcanvas-button-image-left" src="../static/images/offcanvas_sidebar_action_button.svg"/>
         </button>
         <div class="d-flex justify-content-center">
-            <button type="button" class="btn btn-outline-danger btn-sm">
-                Click here to login as a staff
-            </button>
+            <form method="POST" action="{{ url_for('map.main_map_page')}}">
+                {{ form.hidden_tag() }}
+
+                <fieldset>
+                    <legend class="border-bottom mb-2">Shortest path calculation</legend>
+                    <div class="mb-2">
+                        {% if form.starting_point.errors %}
+                            {{ form.starting_point(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.starting_point.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                            {{ form.starting_point(class="form-control form-control-lg", placeholder="Enter starting point") }}
+                        {% endif %}
+                    </div>
+                    <div class="mb-2">
+                        {% if form.destination.errors %}
+                            {{ form.destination(class="form-control form-control-lg is-invalid") }}
+                            <div class="invalid-feedback">
+                                {% for error in form.destination.errors %}
+                                    <span>{{ error }}</span>
+                                {% endfor %}
+                            </div>
+                        {% else %}
+                        {{ form.destination(class="form-control form-control-lg", placeholder="Enter destination") }}
+                        {% endif %}
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div>
+                                {{ form.remove_stairs.label(class="form-label") }}
+                                {{ form.remove_stairs(class="form-control form-select-sm") }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div>
+                                {{ form.allow_shortcuts.label(class="form-label") }}
+                                {{ form.allow_shortcuts(class="form-control form-select-sm") }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div>
+                                {{ form.only_walkways.label(class="form-label") }}
+                                {{ form.only_walkways(class="form-control form-select-sm") }}
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div>
+                                {{ form.only_car_paths.label(class="form-label") }}
+                                {{ form.only_car_paths(class="form-control form-select-sm") }}
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <div class="d-flex justify-content-center mt-3">
+                        {{ form.submit(class="btn btn-success btn-lg") }}
+                    </div>
+                </fieldset>
+            </form>
         </div>
         <hr>
+        <button type="button" class="btn btn-outline-info btn-sm mb-1">
+            About this website
+        </button>
+        <button type="button" class="btn btn-outline-danger btn-sm">
+            Staff login
+        </button>
+        <div class="d-flex flex-column justify-content-center align-items-center mt-1">
+            <img src="./static/images/malvern_college_crest.svg" alt="malvern college crest" class="img-fluid d-none d-md-block malvern-college-crest">
+            <p class="text-center d-none d-md-block">
+                Sapiens qui prospiciT<br>
+                (Wise is the person who looks ahead)
+            </p>
+        </div>
     </div>
     <script src="./static/javascript/toggle_sidebar_activation_button.js"></script>
 {% endblock %}
