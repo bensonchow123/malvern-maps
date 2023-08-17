@@ -1,0 +1,13 @@
+{
+    "A":{"connected_nodes": [
+        {"name":"B", "distance":1,"vertice_type":"pedestrian"}
+    ], "image_url": "url"},
+    "B":{"connected_nodes": [
+        {"name":"A", "distance":1,"vertice_type":"pedestrian"},
+        {"name":"C", "distance":1,"vertice_type":"pedestrian"}
+    ], "image_url": "url"},
+
+    "C":{"connected_nodes": [
+        {"name":"B", "distance":1,"vertice_type":"pedestrian"}
+    ], "image_url": "url"}
+}

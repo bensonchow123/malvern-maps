@@ -10,16 +10,30 @@
     }
 }
 
-.malvern-college-crest {
-    max-height: 150px;
+.small-screen-invisible {
+    display: none;
 }
 
-@media (max-height: 900px) {
-    .sidebar-button-image {
-        max-height: 90px;
+@media (min-height: 750px) {
+    .small-screen-invisible {
+        display: block;
+    }
+    .malvern-college-crest {
+        max-height: 110px;
     }
 }
 
+@media (min-height: 800px) {
+    .malvern-college-crest {
+        max-height: 120px;
+    }
+}
+
+@media (min-height: 900px) {
+    .malvern-college-crest {
+        max-height: 195px;
+    }
+}
 .offcanvas-button-image-left {
     float: left;
 }
