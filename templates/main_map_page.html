@@ -19,7 +19,7 @@
 
                 <fieldset>
                     <legend class="border-bottom mb-2">Shortest path calculation</legend>
-                    <div class="mb-2">
+                    <div class="mb-1">
                         {% if form.starting_point.errors %}
                             {{ form.starting_point(class="form-control form-control-lg is-invalid") }}
                             <div class="invalid-feedback">
@@ -31,7 +31,7 @@
                             {{ form.starting_point(class="form-control form-control-lg", placeholder="Enter starting point") }}
                         {% endif %}
                     </div>
-                    <div class="mb-2">
+                    <div class="mb-1">
                         {% if form.destination.errors %}
                             {{ form.destination(class="form-control form-control-lg is-invalid") }}
                             <div class="invalid-feedback">
@@ -63,19 +63,37 @@
                         <div class="col-md-6">
                             <div>
                                 {{ form.only_walkways.label(class="form-label") }}
-                                {{ form.only_walkways(class="form-control form-select-sm") }}
+                                {% if form.only_walkways.errors %}
+                                    {{ form.only_walkways(class="form-control form-select-sm is-invalid") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.only_walkways.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.only_walkways(class="form-control form-select-sm") }}
+                                {% endif %}
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div>
                                 {{ form.only_car_paths.label(class="form-label") }}
-                                {{ form.only_car_paths(class="form-control form-select-sm") }}
+                                {% if form.only_car_paths.errors %}
+                                    {{ form.only_car_paths(class="form-control form-select-sm is-invalid") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in form.only_car_paths.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ form.only_car_paths(class="form-control form-select-sm") }}
+                                {% endif %}
                             </div>
                         </div>
                     </div>
                 </fieldset>
                 <fieldset>
-                    <div class="d-flex justify-content-center mt-3">
+                    <div class="d-flex justify-content-center mt-2">
                         {{ form.submit(class="btn btn-success btn-lg") }}
                     </div>
                 </fieldset>
@@ -88,9 +106,10 @@
         <button type="button" class="btn btn-outline-danger btn-sm">
             Staff login
         </button>
-        <div class="d-flex flex-column justify-content-center align-items-center mt-1">
-            <img src="./static/images/malvern_college_crest.svg" alt="malvern college crest" class="img-fluid d-none d-md-block malvern-college-crest">
-            <p class="text-center d-none d-md-block">
+
+        <div class="small-screen-invisible d-flex flex-column justify-content-center mt-1">
+            <img src="./static/images/malvern_college_crest.svg" alt="malvern college crest" class="small-screen-invisible malvern-college-crest">
+            <p class="small-screen-invisible text-center">
                 Sapiens qui prospiciT<br>
                 (Wise is the person who looks ahead)
             </p>
