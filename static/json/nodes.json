@@ -1,13 +1,17 @@
 {
     "A":{"connected_nodes": [
-        {"name":"B", "distance":1,"vertice_type":"pedestrian"}
+        {"name":"B", "distance":1,"vertex_type":"stairs"}
     ], "image_url": "url"},
     "B":{"connected_nodes": [
-        {"name":"A", "distance":1,"vertice_type":"pedestrian"},
-        {"name":"C", "distance":1,"vertice_type":"pedestrian"}
+        {"name":"A", "distance":1,"vertex_type":"stairs"},
+        {"name":"C", "distance":1,"vertex_type":"walkway"}
     ], "image_url": "url"},
 
     "C":{"connected_nodes": [
-        {"name":"B", "distance":1,"vertice_type":"pedestrian"}
+        {"name":"B", "distance":1,"vertex_type":"walkway"},
+        {"name":"D", "distance":1,"vertex_type":"car_path"}
+    ], "image_url": "url"},
+    "D":{"connected_nodes": [
+        {"name":"E", "distance":1,"vertex_type":"car_path"}
     ], "image_url": "url"}
 }

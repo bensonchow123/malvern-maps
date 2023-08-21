@@ -3,20 +3,16 @@ from json import load
 from wtforms import StringField, SubmitField, SelectField
 from wtforms.validators import DataRequired, ValidationError
 from flask_wtf import FlaskForm
-
-
+from shortest_path_calculation import get_nodes
 class IsValidNode():
     def __call__(self, form, field):
         field_data = field.data
-        print(field_data)
+        nodes = get_nodes()
+        name_of_nodes = list(nodes.keys())
 
-        with open('./static/json/nodes.json', 'r') as nodes_database:
-            nodes = load(nodes_database)
+        if field_data not in name_of_nodes:
+            raise ValidationError("Invalid node!")
 
-            name_of_nodes = list(nodes.keys())
-
-            if field_data not in name_of_nodes:
-                raise ValidationError("Invalid node!")
 class OnlyOneYes():
     def __init__(self, fieldname1, fieldname2):
         self.fieldname1 = fieldname1
@@ -25,7 +21,6 @@ class OnlyOneYes():
     def __call__(self, form, field):
         if form[self.fieldname1].data == 'yes' and form[self.fieldname2].data == 'yes':
             raise ValidationError("Can't pick both!")
-
 
 class ShortestPathCalculationForm(FlaskForm):
     starting_point = StringField('Starting point', validators=[DataRequired(), IsValidNode()])
@@ -42,6 +37,5 @@ class ShortestPathCalculationForm(FlaskForm):
         validators=[OnlyOneYes('only_walkways', 'only_car_paths')]
     )
     submit = SubmitField('Begin calculation')
-
 
 
