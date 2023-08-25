@@ -21,4 +21,9 @@ def main_map_page():
                  category='success')
             return render_template('main_map_page.html', form=form, open_sidebar=False)
         return render_template('main_map_page.html', form=form, open_sidebar=True)
-    return render_template('main_map_page.html', form=form, open_sidebar=False)
+    # if device with big screen open sidebar, if device with small screen, open sidebar
+    return render_template(
+        'main_map_page.html',
+        form=form,
+        open_sidebar=False
+    )

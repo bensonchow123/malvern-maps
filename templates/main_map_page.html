@@ -18,11 +18,11 @@
             {% endfor %}
         {% endif %}
     {% endwith %}
-    <div class="offcanvas offcanvas-start {{ 'show' if open_sidebar else '' }}" tabindex="-1" data-bs-backdrop="false" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
+    <div class="offcanvas offcanvas-start {{ 'show' if open_sidebar else '' }} hidden-scrollbar" tabindex="-1" data-bs-backdrop="false" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
         <button class="btn btn-primary btn-sm btn-transparent mb-2" type="button" data-bs-toggle="offcanvas" aria-label="Close">
             <img class="sidebar-button-image offcanvas-button-image-left" src="../static/images/offcanvas_sidebar_action_button.svg"/>
         </button>
-        <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center ">
             <form method="POST" action="{{ url_for('map.main_map_page')}}">
                 {{ form.hidden_tag() }}
 
