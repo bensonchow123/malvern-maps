@@ -12,6 +12,6 @@
         {"name":"D", "distance":1,"vertex_type":"car_path"}
     ], "image_url": "url"},
     "D":{"connected_nodes": [
-        {"name":"E", "distance":1,"vertex_type":"car_path"}
+        {"name":"C", "distance":1,"vertex_type":"car_path"}
     ], "image_url": "url"}
 }
