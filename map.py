@@ -2,9 +2,9 @@ from flask import Blueprint, render_template, request, flash
 from forms import ShortestPathCalculationForm
 from shortest_path_calculation import get_nodes, handle_select_fields, shortest_path_algorithm
 
-MAP = Blueprint("map", __name__)
+map = Blueprint("map", __name__)
 
-@MAP.route('/', methods=['GET', 'POST'])
+@map.route('/', methods=['GET', 'POST'])
 def main_map_page():
     form = ShortestPathCalculationForm()
     if request.method == "POST":
