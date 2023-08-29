@@ -109,12 +109,12 @@
             </form>
         </div>
         <hr>
-        <button type="button" class="btn btn-outline-info btn-sm mb-1">
+        <a type="button" class="btn btn-outline-info btn-sm mb-1" >
             About this website
-        </button>
-        <button type="button" class="btn btn-outline-danger btn-sm">
+        </a>
+        <a type="button" href="{{ url_for('report_system.login') }}" class="btn btn-outline-danger btn-sm">
             Staff login
-        </button>
+        </a>
 
         <div class="small-screen-invisible d-flex flex-column justify-content-center mt-1">
             <img src="./static/images/malvern_college_crest.svg" alt="malvern college crest" class="small-screen-invisible malvern-college-crest">

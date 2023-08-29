@@ -1,19 +1,26 @@
 from json import load
+from os import getenv
 
-from wtforms import StringField, SubmitField, SelectField
-from wtforms.validators import DataRequired, ValidationError
+from wtforms import StringField, SubmitField, SelectField, PasswordField
+from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
 from flask_wtf import FlaskForm
 from shortest_path_calculation import get_nodes
-class IsValidNode():
-    def __call__(self, form, field):
-        field_data = field.data
-        nodes = get_nodes()
-        name_of_nodes = list(nodes.keys())
+from pymongo import MongoClient
+from dotenv import load_dotenv
+from flask_bcrypt import check_password_hash
 
-        if field_data not in name_of_nodes:
-            raise ValidationError("Invalid node!")
+malvern_maps_cluster = MongoClient(getenv("MongoDbSecretKey"))
+malvern_maps_db = malvern_maps_cluster["malvern_maps"]
 
-class OnlyOneYes():
+def is_valid_node(form, field):
+    node_data = field.data
+    nodes = get_nodes()
+    name_of_nodes = list(nodes.keys())
+
+    if node_data not in name_of_nodes:
+        raise ValidationError("Invalid node!")
+
+class OnlyOneYes:
     def __init__(self, fieldname1, fieldname2):
         self.fieldname1 = fieldname1
         self.fieldname2 = fieldname2
@@ -23,8 +30,8 @@ class OnlyOneYes():
             raise ValidationError("Can't pick both!")
 
 class ShortestPathCalculationForm(FlaskForm):
-    starting_point = StringField('Starting point', validators=[DataRequired(), IsValidNode()])
-    destination = StringField('Destination', validators=[DataRequired(), IsValidNode()])
+    starting_point = StringField('Starting point', validators=[DataRequired(), is_valid_node])
+    destination = StringField('Destination', validators=[DataRequired(), is_valid_node])
     remove_stairs = SelectField('Remove stairs', choices=[('no', 'No'),('yes', 'Yes')])
     allow_shortcuts = SelectField('Allow shortcuts', choices=[('no', 'No'),('yes', 'Yes')])
     only_walkways = SelectField(
@@ -38,4 +45,34 @@ class ShortestPathCalculationForm(FlaskForm):
     )
     submit = SubmitField('Begin calculation')
 
+
+class LoginValidator:
+    def __init__(self, field_name, message=None):
+        self.field_name = field_name
+        self.message = message
+
+    def __call__(self, form, field):
+        if not hasattr(form, 'found_account'):
+            form.found_account = malvern_maps_db["registered_accounts"].find_one({"email": form.email.data})
+        found_account = form.found_account
+
+        if not found_account:
+            form[self.field_name].errors.append('Email not registered, register an account')
+            raise ValidationError()
+
+        elif not found_account["verified"]:
+            form[self.field_name].errors.append(
+                'Email not verified, check your email to verify your account<br>'
+                'Reregister if you did not receive an email'
+            )
+            raise ValidationError()
+
+        elif not check_password_hash(found_account["password"], form.password.data):
+            form[self.field_name].errors.append('Incorrect password')
+            raise ValidationError()
+
+class LoginForm(FlaskForm):
+    email = StringField('Email Address', validators=[DataRequired(), Email(), LoginValidator('email')])
+    password = PasswordField('Password', validators=[DataRequired(), LoginValidator('password')])
+    submit = SubmitField('Sign In')
 
