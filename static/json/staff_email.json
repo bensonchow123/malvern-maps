@@ -1,0 +1,8 @@
+{
+  "chow_cheuk_him@malvern_college.org.uk": {
+    "admin": true
+  },
+  "other_staff_member@malvern_college.org.uk": {
+    "admin": false
+  }
+}

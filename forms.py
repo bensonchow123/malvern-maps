@@ -1,15 +1,18 @@
 from json import load
 from os import getenv
+from re import search
 
 from wtforms import StringField, SubmitField, SelectField, PasswordField
-from wtforms.validators import DataRequired, ValidationError, Email, EqualTo
+from wtforms.validators import DataRequired, ValidationError, Email, EqualTo, StopValidation
 from flask_wtf import FlaskForm
 from shortest_path_calculation import get_nodes
 from pymongo import MongoClient
 from dotenv import load_dotenv
 from flask_bcrypt import check_password_hash
 
-malvern_maps_cluster = MongoClient(getenv("MongoDbSecretKey"))
+load_dotenv()
+
+malvern_maps_cluster = MongoClient(getenv("MONGODB_URL"))
 malvern_maps_db = malvern_maps_cluster["malvern_maps"]
 
 def is_valid_node(form, field):
@@ -47,9 +50,8 @@ class ShortestPathCalculationForm(FlaskForm):
 
 
 class LoginValidator:
-    def __init__(self, field_name, message=None):
+    def __init__(self, field_name):
         self.field_name = field_name
-        self.message = message
 
     def __call__(self, form, field):
         if not hasattr(form, 'found_account'):
@@ -57,22 +59,92 @@ class LoginValidator:
         found_account = form.found_account
 
         if not found_account:
-            form[self.field_name].errors.append('Email not registered, register an account')
-            raise ValidationError()
+            if self.field_name == 'email':
+                form.email.errors.append('Email not registered, register an account')
+                raise ValidationError()
 
         elif not found_account["verified"]:
-            form[self.field_name].errors.append(
-                'Email not verified, check your email to verify your account<br>'
-                'Reregister if you did not receive an email'
-            )
-            raise ValidationError()
+            if self.field_name == 'email':
+                form.email.errors.append(
+                    "Please verify your account via email or re-register if needed"
+                )
+                raise ValidationError()
 
-        elif not check_password_hash(found_account["password"], form.password.data):
-            form[self.field_name].errors.append('Incorrect password')
-            raise ValidationError()
+        else:
+            if self.field_name == 'password':
+                if not check_password_hash(found_account["password"], form.password.data):
+                    form.password.errors.append('Incorrect password')
+                    raise ValidationError()
+
+class StopValidationEmail(Email):
+    def __call__(self, form, field):
+        try:
+            super().__call__(form, field)
+        except StopValidation:
+            raise
+        except ValueError as error:
+            field.errors.append(str(error))
+            raise StopValidation()
+
+def is_email_allowed(form, field):
+    with open("./static/json/staff_email.json") as staffs:
+        allowed_emails = load(staffs)
+    if field.data not in allowed_emails.keys():
+        field.errors.append("Email not allowed to register an account")
+        raise StopValidation()
+
+def is_email_registered(form, field):
+    found_account = malvern_maps_db["registered_accounts"].find_one({"email": form.email.data})
+    if found_account:
+        if not found_account["verified"]:
+            malvern_maps_db["registered_accounts"].delete_many({"email": form.email.data})
+        else:
+            field.errors.append("Email already registered, reset password if forgotten")
+            raise StopValidation()
+
+def is_password_valid(form, field):
+    password = field.data
+    length_error = len(password) < 8
+    symbol_error = search(r"[ !#$%&'()*+,-./[\\\]^_`{|}~" + r'"]', password) is None
+    password_ok = not [length_error or symbol_error]
+    if not password_ok:
+        field.errors.append('Must be 8+ characters with 1+ symbol')
+        raise ValidationError()
+
+def is_email_registered_and_verified(form, field):
+    found_account = malvern_maps_db["registered_accounts"].find_one({"email": form.email.data})
+    if found_account:
+        if not found_account["verified"]:
+            field.error.append("Email not verified, check inbox or re-verify.")
+            raise StopValidation()
+    else:
+        field.error.append('No account found with that email.')
+        raise StopValidation()
 
 class LoginForm(FlaskForm):
-    email = StringField('Email Address', validators=[DataRequired(), Email(), LoginValidator('email')])
+    email = StringField('Email Address', validators=[
+        DataRequired(),
+        StopValidationEmail(),
+        LoginValidator('email')
+    ])
     password = PasswordField('Password', validators=[DataRequired(), LoginValidator('password')])
-    submit = SubmitField('Sign In')
+    submit = SubmitField('Login')
+class RegisterForm(FlaskForm):
+    email = StringField(
+        'email',
+        validators=[
+            DataRequired(),
+            StopValidationEmail(),
+            is_email_allowed,
+            is_email_registered
+        ]
+    )
+    password = PasswordField('password',validators=[DataRequired(), is_password_valid])
+    confirm_password = PasswordField('confirm_password',validators=[DataRequired(), EqualTo('password')])
+    submit = SubmitField('register')
 
+class PasswordResetForm(FlaskForm):
+    email = StringField('email', validators=[DataRequired(), StopValidationEmail(), is_email_registered_and_verified])
+    new_password = PasswordField('new_password', validators=[DataRequired(), is_password_valid])
+    confirm_new_password = PasswordField('confirm_new_password', validators=[DataRequired(), EqualTo('new_password')])
+    submit = SubmitField('reset password')
