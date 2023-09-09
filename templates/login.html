@@ -4,6 +4,9 @@
 {% endblock %}
 
 {% block body %}
+    <div class="d-flex justify-content-end">
+        <a href="{{ url_for('map.main_map_page')}}" class="btn btn-primary btn-lg rounded-0">Return to map</a>
+    </div>
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             {% for category, message in messages %}
@@ -14,7 +17,7 @@
             {% endfor %}
         {% endif %}
     {% endwith %}
-    <div class="d-flex justify-content-center">
+    <div class="d-flex justify-content-center mt-5">
         <form method="POST" action="{{ url_for('report_system.login')}}">
             {{ form.hidden_tag() }}
             <fieldset>
@@ -47,10 +50,16 @@
                 </div>
             </fieldset>
             <fieldset>
-                <div class="d-flex mt-2">
-                    {{ form.submit(class="btn btn-outline-success btn-lg") }}
+                <div class="d-flex mt-2 justify-">
+                    {{ form.submit(class="btn btn-outline-success btn") }}
                 </div>
             </fieldset>
+            <div class="border-top mt-4">
+                <small class="text-muted">
+                <a href="{{ url_for('report_system.register')}}">Register an account</a>
+                <a href="{{ url_for('report_system.password_reset') }}">Reset Your password</a>
+                </small>
+            </div>
         </form>
     </div>
 {% endblock %}
