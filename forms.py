@@ -129,6 +129,7 @@ class LoginForm(FlaskForm):
     ])
     password = PasswordField('Password', validators=[DataRequired(), LoginValidator('password')])
     submit = SubmitField('Login')
+
 class RegisterForm(FlaskForm):
     email = StringField(
         'email',
