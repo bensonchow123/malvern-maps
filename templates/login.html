@@ -50,14 +50,16 @@
                 </div>
             </fieldset>
             <fieldset>
-                <div class="d-flex mt-2 justify-">
+                <div class="mt-2">
                     {{ form.submit(class="btn btn-outline-success btn") }}
                 </div>
             </fieldset>
-            <div class="border-top mt-4">
-                <small class="text-muted">
-                <a href="{{ url_for('report_system.register')}}">Register an account</a>
-                <a href="{{ url_for('report_system.password_reset') }}">Reset Your password</a>
+            <div class="border-top mt-4 d-flex justify-content-between">
+                <small>
+                    <a class="text-decoration-none ms-4" href="{{ url_for('report_system.register')}}">Register</a>
+                </small>
+                <small>
+                    <a class="text-decoration-none me-4" href="{{ url_for('report_system.password_reset') }}">Reset password</a>
                 </small>
             </div>
         </form>

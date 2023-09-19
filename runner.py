@@ -7,7 +7,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 app = Flask(__name__)
+
 app.config['SECRET_KEY'] = getenv("FLASKSECRETKEY")
+
 app.register_blueprint(map)
 app.register_blueprint(report_system)
 

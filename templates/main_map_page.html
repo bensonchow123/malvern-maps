@@ -112,10 +112,15 @@
         <a type="button" class="btn btn-outline-info btn-sm mb-1" >
             About this website
         </a>
-        <a type="button" href="{{ url_for('report_system.login') }}" class="btn btn-outline-danger btn-sm">
-            Staff login
-        </a>
-
+        {% if g.email %}
+            <a type="button" href="{{ url_for('report_system.logout') }}" class="btn btn-outline-danger btn-sm">
+                Logout
+            </a>
+        {% else %}
+            <a type="button" href="{{ url_for('report_system.login') }}" class="btn btn-outline-danger btn-sm">
+                Staff login
+            </a>
+        {% endif %}
         <div class="small-screen-invisible d-flex flex-column justify-content-center mt-1">
             <img src="./static/images/malvern_college_crest.svg" alt="malvern college crest" class="small-screen-invisible malvern-college-crest">
             <p class="small-screen-invisible text-center">

@@ -1,8 +1,12 @@
-from flask import Blueprint, render_template, request, flash
+from flask import Blueprint, render_template, request, flash, session, g
 from forms import ShortestPathCalculationForm
 from shortest_path_calculation import get_nodes, handle_select_fields, shortest_path_algorithm
 
 map = Blueprint("map", __name__)
+
+@map.before_request
+def get_staff_details():
+    g.email = session.get('email', None)
 
 @map.route('/', methods=['GET', 'POST'])
 def main_map_page():
