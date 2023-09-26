@@ -53,9 +53,9 @@ def send_verification_email(email, token):
         sender=('Malvern Maps', 'malvern.maps.verify@gmail.com'),
         recipients=[email]
     )
-    msg.body = f'''Thank you for registering. Please click on the following link to verify your email address:
-        {url_for('report_system.verify_email', token=token, _external=True)}
-        '''
+    msg.body = f"""Thank you for registering. Please click on the following link to verify your email address:"""
+        #{url_for('report_system.verify_email', token=token, _external=True)}"""
+
     mail.send(msg)
 
 @report_system.route('/register',  methods=['GET', 'POST'])
