@@ -48,10 +48,14 @@ def save_staff_in_database(email, password):
     malvern_maps_db["registered-accounts"].insert_one({"email": email, "password": password, "verified": False})
 
 def send_verification_email(email, token):
-    msg = Message('Your Token',
-                  sender='your-email@example.com',
-                  recipients=[email])
-    msg.body = f'Your verfication link is {token}'
+    msg = Message(
+        subject='Email verification',
+        sender=('Malvern Maps', 'malvern.maps.verify@gmail.com'),
+        recipients=[email]
+    )
+    msg.body = f'''Thank you for registering. Please click on the following link to verify your email address:
+        {url_for('report_system.verify_email', token=token, _external=True)}
+        '''
     mail.send(msg)
 
 @report_system.route('/register',  methods=['GET', 'POST'])
