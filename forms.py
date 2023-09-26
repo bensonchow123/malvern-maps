@@ -13,7 +13,7 @@ from flask_bcrypt import check_password_hash
 load_dotenv()
 
 malvern_maps_cluster = MongoClient(getenv("MONGODB_URL"))
-malvern_maps_db = malvern_maps_cluster["malvern_maps"]
+malvern_maps_db = malvern_maps_cluster["malvern-maps"]
 
 def is_valid_node(form, field):
     node_data = field.data
@@ -55,7 +55,7 @@ class LoginValidator:
 
     def __call__(self, form, field):
         if not hasattr(form, 'found_account'):
-            form.found_account = malvern_maps_db["registered_accounts"].find_one({"email": form.email.data})
+            form.found_account = malvern_maps_db["registered-accounts"].find_one({"email": form.email.data})
         found_account = form.found_account
 
         if not found_account:
@@ -94,10 +94,10 @@ def is_email_allowed(form, field):
         raise StopValidation()
 
 def is_email_registered(form, field):
-    found_account = malvern_maps_db["registered_accounts"].find_one({"email": form.email.data})
+    found_account = malvern_maps_db["registered-accounts"].find_one({"email": form.email.data})
     if found_account:
         if not found_account["verified"]:
-            malvern_maps_db["registered_accounts"].delete_many({"email": form.email.data})
+            malvern_maps_db["registered-accounts"].delete_many({"email": form.email.data})
         else:
             field.errors.append("Email already registered, reset password if forgotten")
             raise StopValidation()
@@ -106,13 +106,19 @@ def is_password_valid(form, field):
     password = field.data
     length_error = len(password) < 8
     symbol_error = search(r"[ !#$%&'()*+,-./[\\\]^_`{|}~" + r'"]', password) is None
-    password_ok = not [length_error or symbol_error]
-    if not password_ok:
-        field.errors.append('Must be 8+ characters with 1+ symbol')
+
+    if length_error and symbol_error:
+        field.errors.append('Password must be 8+ characters and contain 1+ symbol')
+        raise ValidationError()
+    elif length_error:
+        field.errors.append('Password must be 8+ characters')
+        raise ValidationError()
+    elif symbol_error:
+        field.errors.append('Password must contain 1+ symbol')
         raise ValidationError()
 
 def is_email_registered_and_verified(form, field):
-    found_account = malvern_maps_db["registered_accounts"].find_one({"email": form.email.data})
+    found_account = malvern_maps_db["registered-accounts"].find_one({"email": form.email.data})
     if found_account:
         if not found_account["verified"]:
             field.error.append("Email not verified, check inbox or re-verify.")
@@ -132,7 +138,7 @@ class LoginForm(FlaskForm):
 
 class RegisterForm(FlaskForm):
     email = StringField(
-        'email',
+        'Email',
         validators=[
             DataRequired(),
             StopValidationEmail(),
@@ -140,12 +146,12 @@ class RegisterForm(FlaskForm):
             is_email_registered
         ]
     )
-    password = PasswordField('password',validators=[DataRequired(), is_password_valid])
-    confirm_password = PasswordField('confirm_password',validators=[DataRequired(), EqualTo('password')])
+    password = PasswordField('Password',validators=[DataRequired(), is_password_valid])
+    confirm_password = PasswordField('Confirm Password',validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('register')
 
 class PasswordResetForm(FlaskForm):
-    email = StringField('email', validators=[DataRequired(), StopValidationEmail(), is_email_registered_and_verified])
-    new_password = PasswordField('new_password', validators=[DataRequired(), is_password_valid])
-    confirm_new_password = PasswordField('confirm_new_password', validators=[DataRequired(), EqualTo('new_password')])
+    email = StringField('Email', validators=[DataRequired(), StopValidationEmail(), is_email_registered_and_verified])
+    new_password = PasswordField('New Password', validators=[DataRequired(), is_password_valid])
+    confirm_new_password = PasswordField('Confirm New Password', validators=[DataRequired(), EqualTo('new_password')])
     submit = SubmitField('reset password')
