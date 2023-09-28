@@ -47,14 +47,16 @@ def login():
 def save_staff_in_database(email, password):
     malvern_maps_db["registered-accounts"].insert_one({"email": email, "password": password, "verified": False})
 
-def send_verification_email(email, token):
+def send_verification_email(email, url):
     msg = Message(
         subject='Email verification',
         sender=('Malvern Maps', 'malvern.maps.verify@gmail.com'),
         recipients=[email]
     )
-    msg.body = f"""Thank you for registering. Please click on the following link to verify your email address:"""
-        #{url_for('report_system.verify_email', token=token, _external=True)}"""
+    msg.body = (
+        f"Thank you for registering. Please click on the link below to verify your email address:"
+        f"\n{url}\n\nIf you did not register, please ignore this email and no changes will be made."
+    )
     mail.send(msg)
 
 @report_system.route('/register',  methods=['GET', 'POST'])
@@ -66,9 +68,19 @@ def register():
         verification_token = serializer.dumps(email, salt='email-confirm')
 
         save_staff_in_database(email, generate_password_hash(password).decode('utf-8'))
-        send_verification_email(email, verification_token)
-
+        send_verification_email(
+            email,
+            url_for(
+                'report_system.verify_email',
+                token=verification_token,
+                _external=True
+            )
+        )
     return render_template('register.html', form=form)
+
+@report_system.route('/verify_email/<token>')
+def verify_email(token):
+    pass
 
 @report_system.route('/password_reset',  methods=['GET', 'POST'])
 def password_reset():
