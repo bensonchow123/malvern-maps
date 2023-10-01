@@ -1,8 +1,17 @@
 {
-  "benson@benchowchunman.com": {
+  "c.thomas@malverncollege.org.uk": {
     "admin": true
   },
   "chow_cheukhim@malverncollege.org.uk": {
     "admin": false
+  },
+  "mezhibovskiy_ivan@malverncollege.org.uk": {
+    "admin": false
+  },
+  "soetan_abdul-awwal@malverncollege.org.uk": {
+    "admin": false
+  },
+  "benson@benchowchunman.com": {
+    "admin": true
   }
 }
