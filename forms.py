@@ -1,6 +1,7 @@
 from json import load
 from os import getenv
 from re import search
+from datetime import datetime, timedelta
 
 from wtforms import StringField, SubmitField, SelectField, PasswordField
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo, StopValidation
@@ -127,6 +128,18 @@ def is_email_registered_and_verified(form, field):
         field.error.append('No account found with that email.')
         raise StopValidation()
 
+def is_exceeded_reset_limit(form, field):
+    password_resets = malvern_maps_db["password-resets"]
+    now = datetime.utcnow()
+    yesterday = now - timedelta(days=1)
+    email = form.email.data
+    resets_in_last_day = password_resets.count_documents(
+        {"email": email, "timestamp": {"$gt": yesterday, "$lt": now}}
+    )
+    if resets_in_last_day >= 3:
+        field.errors.append("Password reset limit reached. Please try again tomorrow")
+        raise StopValidation()
+
 class LoginForm(FlaskForm):
     email = StringField('Email Address', validators=[
         DataRequired(),
@@ -151,7 +164,15 @@ class RegisterForm(FlaskForm):
     submit = SubmitField('register')
 
 class PasswordResetForm(FlaskForm):
-    email = StringField('Email', validators=[DataRequired(), StopValidationEmail(), is_email_registered_and_verified])
+    email = StringField(
+        'Email',
+        validators=[
+            DataRequired(),
+            StopValidationEmail(),
+            is_email_registered_and_verified,
+            is_exceeded_reset_limit
+        ]
+    )
     new_password = PasswordField('New Password', validators=[DataRequired(), is_password_valid])
     confirm_new_password = PasswordField('Confirm New Password', validators=[DataRequired(), EqualTo('new_password')])
     submit = SubmitField('reset password')
