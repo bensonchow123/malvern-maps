@@ -56,11 +56,10 @@ def login():
     form = LoginForm()
     if request.method == "POST":
         if form.validate_on_submit():
-            if form.validate_on_submit():
-                session.clear()
-                session['email'] = form.email.data
-                flash("You logged in successfully", "success")
-                return redirect(url_for('map.main_map_page'))
+            session.clear()
+            session['email'] = form.email.data
+            flash("You logged in successfully", "success")
+            return redirect(url_for('map.main_map_page'))
 
     return render_template('login.html', form=form)
 
