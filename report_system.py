@@ -1,7 +1,6 @@
 from datetime import timedelta
 from os import getenv
 from datetime import datetime
-from functools import wraps
 
 from flask import Blueprint, render_template, request, session, redirect, flash, url_for
 from flask_mail import Mail, Message
@@ -32,34 +31,29 @@ def record_params(setup_state):
     mail = Mail(app)
     serializer = URLSafeTimedSerializer(app.config['SECRET_KEY'])
 
-def redirect_logged_in_users(f):
-    @wraps(f)
-    def checking_cookie(*args, **kwargs):
-        if "email" in session:
-            flash("Logout to access this page.", "danger")
-            return redirect(url_for('map.main_map_page'))
-        return f(*args, **kwargs)
-    return checking_cookie
+def check_logged_in():
+    if "email" in session:
+        flash("logout in the sidebar to access this page", "danger")
+        return True
 
-def redirect_not_logged_in_users(f):
-    @wraps(f)
-    def checking_cookie(*args, **kwargs):
-        if "email" not in session:
-            flash("Login to access this page.", "danger")
-            return redirect(url_for('report_system.login'))
-        return f(*args, **kwargs)
-    return checking_cookie
+def check_logged_out():
+    if "email" not in session:
+        flash("login in the sidebar to access this page", "danger")
+        return True
 
-@redirect_logged_in_users
 @report_system.route('/login', methods=['GET', 'POST'])
 def login():
+    if check_logged_in():
+        return redirect(url_for('map.main_map_page'))
+
     form = LoginForm()
     if request.method == "POST":
         if form.validate_on_submit():
-            session.clear()
-            session['email'] = form.email.data
-            flash("You logged in successfully", "success")
-            return redirect(url_for('map.main_map_page'))
+            if form.validate_on_submit():
+                session.clear()
+                session['email'] = form.email.data
+                flash("You logged in successfully", "success")
+                return redirect(url_for('map.main_map_page'))
 
     return render_template('login.html', form=form)
 
@@ -83,9 +77,11 @@ def send_verification_email(email, url):
     )
     mail.send(msg)
 
-@redirect_logged_in_users
 @report_system.route('/register',  methods=['GET', 'POST'])
 def register():
+    if check_logged_in():
+        return redirect(url_for('map.main_map_page'))
+
     form = RegisterForm()
     if request.method == "POST":
         if form.validate_on_submit():
@@ -109,9 +105,11 @@ def register():
 def verify_staff(email):
     malvern_maps_db["registered-accounts"].update_one({"email": email}, {"$set": {"verified": True}})
 
-@redirect_logged_in_users
 @report_system.route('/verify_email/<token>')
 def verify_email(token):
+    if check_logged_in():
+        return redirect(url_for('map.main_map_page'))
+
     try:
         email = serializer.loads(token, salt='email-verification', max_age=7200)
         verify_staff(email)
@@ -125,9 +123,12 @@ def verify_email(token):
     except BadTimeSignature:
         flash("Your token is invalid, please register your account again", "danger")
         return redirect(url_for('register'))
-@redirect_logged_in_users
+
 @report_system.route('/password_reset',  methods=['GET', 'POST'])
 def password_reset():
+    if check_logged_in():
+        return redirect(url_for('map.main_map_page'))
+
     form = PasswordResetForm()
     if request.method == "POST":
         if form.validate_on_submit():
@@ -144,7 +145,6 @@ def password_reset():
             return redirect(url_for('report_system.login'))
     return render_template('password_reset.html', form=form)
 
-@redirect_logged_in_users
 def handle_changing_password(email, new_password):
     now = datetime.utcnow()
 
@@ -156,9 +156,11 @@ def handle_changing_password(email, new_password):
         {"$set": {"password": generate_password_hash(new_password).decode('utf-8')}}
     )
 
-@redirect_logged_in_users
 @report_system.route('/verify_password_reset/<token>', methods=['GET', 'POST'])
 def verify_password_reset(token):
+    if check_logged_in():
+        return redirect(url_for('map.main_map_page'))
+
     try:
         password_reset_details = serializer.loads(token, salt='password-reset', max_age=3600)
         handle_changing_password(password_reset_details[0], password_reset_details[1])
@@ -173,9 +175,11 @@ def verify_password_reset(token):
         flash("Your token is invalid, please reset your password again", "danger")
         return redirect(url_for('password_reset'))
 
-@redirect_not_logged_in_users
 @report_system.route('/logout')
 def logout():
+    if check_logged_out():
+        return redirect(url_for('map.main_map_page'))
+
     session.clear()
     flash("You logged out successfully", "success")
     return redirect(url_for('map.main_map_page'))
