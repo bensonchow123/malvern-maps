@@ -1,4 +1,5 @@
 from os import getenv
+from datetime import datetime, timedelta
 
 from flask import Blueprint, render_template, request, flash, session, g
 from forms import ShortestPathCalculationForm, ReportEventForm
@@ -18,13 +19,25 @@ def get_staff_details():
 
 def append_event(node, description):
     malvern_maps_db["reported-events"].insert_one({
+        "timestamp": int(datetime.utcnow().timestamp()),
         "node": node,
         "description": description
     })
 
+def get_reported_events():
+    seven_days_ago = datetime.utcnow() - timedelta(days=7)
+    timestamp_seven_days_ago = int(seven_days_ago.timestamp())
+
+    query = {"timestamp": {"$gte": timestamp_seven_days_ago}}
+    events = malvern_maps_db["reported-events"].find(query).limit(30)
+
+    return list(events)
+
 @map.route('/', methods=['GET', 'POST'])
 def main_map_page():
     def handle_render(open_sidebar, open_modal, flash_category=None, flash_message_content=None):
+        events = get_reported_events()
+        print(events)
         if flash_message_content and flash_category is not None:
             flash(flash_message_content, flash_category)
 

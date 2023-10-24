@@ -136,14 +136,14 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="reportedNodeModalLabel">Modal 1</h5>
+                    <h5 class="modal-title" id="reportedNodeModalLabel">Reported Events</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     Show a second modal and hide this one with the button below.
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" data-bs-target="#reportEventModal" data-bs-toggle="modal" data-bs-dismiss="modal">Open second modal</button>
+                    <button class="btn btn-danger btn-sm" data-bs-target="#reportEventModal" data-bs-toggle="modal" data-bs-dismiss="modal">To Report Event</button>
                 </div>
             </div>
         </div>
@@ -156,47 +156,47 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                <form id="reportEventForm" method="POST" action="{{ url_for('map.main_map_page')}}">
-                    {{ report_event_form.hidden_tag() }}
-                    <fieldset>
-                        <div class="mb-3">
-                            <label class="col-form-lacbel">Node to report:</label>
-                            {% if report_event_form.node_to_report.errors %}
-                                {{ report_event_form.node_to_report(class="form-control is-invalid") }}
-                                <div class="invalid-feedback">
-                                    {% for error in report_event_form.node_to_report.errors %}
-                                        <span>{{ error }}</span>
-                                    {% endfor %}
-                                </div>
-                            {% else %}
-                                {{ report_event_form.node_to_report(class="form-control", placeholder="Enter a valid node") }}
-                            {% endif %}
-                        </div>
-                    </fieldset>
-                    <fieldset>
-                        <div class="mb-3">
-                            <label class="col-form-label">Event Description:</label>
-                            {% if report_event_form.description.errors %}
-                                {{ report_event_form.description(class="form-control is-invalid") }}
-                                <div class="invalid-feedback">
-                                    {% for error in report_event_form.description.errors %}
-                                        <span>{{ error }}</span>
-                                    {% endfor %}
-                                </div>
-                            {% else %}
-                                {{ report_event_form.description(class="form-control", placeholder="Detailed description") }}
-                            {% endif %}
-                        </div>
-                    </fieldset>
-                    <fieldset>
-                        <div class="mt-2">
-                            {{ report_event_form.submit_report(class="btn btn-success btn") }}
-                        </div>
-                    </fieldset>
-                </form>
+                    <form id="reportEventForm" method="POST" action="{{ url_for('map.main_map_page')}}">
+                        {{ report_event_form.hidden_tag() }}
+                        <fieldset>
+                            <div class="mb-3">
+                                <label class="col-form-lacbel">Node to report:</label>
+                                {% if report_event_form.node_to_report.errors %}
+                                    {{ report_event_form.node_to_report(class="form-control is-invalid") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in report_event_form.node_to_report.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ report_event_form.node_to_report(class="form-control", placeholder="Enter a valid node") }}
+                                {% endif %}
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <div class="mb-3">
+                                <label class="col-form-label">Event Description:</label>
+                                {% if report_event_form.description.errors %}
+                                    {{ report_event_form.description(class="form-control is-invalid") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in report_event_form.description.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ report_event_form.description(class="form-control", placeholder="Detailed description") }}
+                                {% endif %}
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <div class="mt-2">
+                                {{ report_event_form.submit_report(class="btn btn-success") }}
+                            </div>
+                        </fieldset>
+                    </form>
                 </div>
                 <div class="modal-footer">
-                    <button  class="btn btn-primary" data-bs-target="#reportedNodeModal" data-bs-toggle="modal" data-bs-dismiss="modal">Back to first</button>
+                    <button  class="btn btn-primary btn-sm" data-bs-target="#reportedNodeModal" data-bs-toggle="modal" data-bs-dismiss="modal">To Reported Events</button>
                 </div>
             </div>
         </div>
