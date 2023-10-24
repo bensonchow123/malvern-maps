@@ -103,7 +103,7 @@
                 </fieldset>
                 <fieldset>
                     <div class="d-flex justify-content-center mt-2">
-                        {{ shortest_path_calculation_form.submit(id="submit-btn", class="btn btn-success btn-lg") }}
+                        {{ shortest_path_calculation_form.submit(class="btn btn-success btn-lg") }}
                     </div>
                 </fieldset>
             </form>
@@ -156,44 +156,44 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form id="reportEventForm" method="POST" action="{{ url_for('map.main_map_page')}}">
-                        {{ report_event_form.hidden_tag() }}
-                        <fieldset>
-                            <div class="mb-3">
-                                <label class="col-form-lacbel">Node to report:</label>
-                                {% if report_event_form.node_to_report.errors %}
-                                    {{ report_event_form.node_to_report(class="form-control is-invalid") }}
-                                    <div class="invalid-feedback">
-                                        {% for error in report_event_form.node_to_report.errors %}
-                                            <span>{{ error }}</span>
-                                        {% endfor %}
-                                    </div>
-                                {% else %}
-                                    {{ report_event_form.node_to_report(class="form-control", placeholder="Enter a valid node") }}
-                                {% endif %}
-                            </div>
-                        </fieldset>
-                        <fieldset>
-                            <div class="mb-3">
-                                <label class="col-form-label">Event Description:</label>
-                                {% if report_event_form.description.errors %}
-                                    {{ report_event_form.description(class="form-control is-invalid") }}
-                                    <div class="invalid-feedback">
-                                        {% for error in report_event_form.description.errors %}
-                                            <span>{{ error }}</span>
-                                        {% endfor %}
-                                    </div>
-                                {% else %}
-                                    {{ report_event_form.description(class="form-control", placeholder="Detailed description") }}
-                                {% endif %}
-                            </div>
-                        </fieldset>
-                        <fieldset>
-                            <div class="mt-2">
-                                {{ report_event_form.submit_report(class="btn btn-success btn", onclick="disableButton(event)") }}
-                            </div>
-                        </fieldset>
-                    </form>
+                <form id="reportEventForm" method="POST" action="{{ url_for('map.main_map_page')}}">
+                    {{ report_event_form.hidden_tag() }}
+                    <fieldset>
+                        <div class="mb-3">
+                            <label class="col-form-lacbel">Node to report:</label>
+                            {% if report_event_form.node_to_report.errors %}
+                                {{ report_event_form.node_to_report(class="form-control is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in report_event_form.node_to_report.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ report_event_form.node_to_report(class="form-control", placeholder="Enter a valid node") }}
+                            {% endif %}
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <div class="mb-3">
+                            <label class="col-form-label">Event Description:</label>
+                            {% if report_event_form.description.errors %}
+                                {{ report_event_form.description(class="form-control is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in report_event_form.description.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ report_event_form.description(class="form-control", placeholder="Detailed description") }}
+                            {% endif %}
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <div class="mt-2">
+                            {{ report_event_form.submit_report(class="btn btn-success btn") }}
+                        </div>
+                    </fieldset>
+                </form>
                 </div>
                 <div class="modal-footer">
                     <button  class="btn btn-primary" data-bs-target="#reportedNodeModal" data-bs-toggle="modal" data-bs-dismiss="modal">Back to first</button>

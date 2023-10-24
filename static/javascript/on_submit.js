@@ -1,7 +1,14 @@
-function disableButton(event) {
-    event.target.value = "Loading...";
-    // Delay disabling the button until after the form submission
-    setTimeout(function() {
-        event.target.disabled = true;
-    }, 10);
-}
+document.addEventListener('DOMContentLoaded', function(){
+    var forms = document.querySelectorAll('form');
+
+    forms.forEach(function(form) {
+        var button = form.querySelector('.btn');
+
+        form.addEventListener('submit', function(event){
+            button.value = "Loading...";
+            setTimeout(function() {
+                button.setAttribute('disabled', 'disabled');
+            }, 10);
+        });
+    });
+});

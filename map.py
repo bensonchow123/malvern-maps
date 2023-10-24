@@ -51,7 +51,6 @@ def main_map_page():
                     starting_point=starting_point,
                     destination=destination
                 )
-
                 if path is None:
                     return handle_render(
                         open_sidebar=False,
@@ -64,8 +63,8 @@ def main_map_page():
                         open_sidebar=False,
                         open_modal=False,
                         flash_category="success",
-                        flash_message_content=f'The shortest path from {starting_point} to {destination} is {path} with a distance '
-                        f'of {distance}'
+                        flash_message_content=f'The shortest path from {starting_point} to {destination} is {path} with'
+                                              f' a distance of {distance}'
                     )
             return handle_render(open_sidebar=True, open_modal=False)
 
@@ -81,4 +80,5 @@ def main_map_page():
                     flash_message_content="Report submitted successfully!"
                 )
             return handle_render(open_sidebar=True, open_modal=True)
+
     return handle_render(False, False)
