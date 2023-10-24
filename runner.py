@@ -23,7 +23,7 @@ def ratelimit_handler(e):
 app.config['SECRET_KEY'] = getenv("FLASKSECRETKEY")
 
 app.register_blueprint(map)
-app.register_blueprint(report_system)
+app.register_blueprint(report_system),
 
 app.run(host="0.0.0.0", port=5000, debug=True)
 

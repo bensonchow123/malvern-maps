@@ -51,7 +51,7 @@
             </fieldset>
             <fieldset>
                 <div class="mt-2">
-                    {{ form.submit(id="submit-btn", class="btn btn-outline-success btn") }}
+                    {{ form.submit(class="btn btn-outline-success btn", onclick="disableButton(event)") }}
                 </div>
             </fieldset>
             <div class="border-top mt-4 d-flex justify-content-between">
@@ -64,5 +64,5 @@
             </div>
         </form>
     </div>
-    <script src="./static/javascript/disable_submit.js"></script>
+    <script src="./static/javascript/on_submit.js"></script>
 {% endblock %}

@@ -11,45 +11,45 @@
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             {% for category, message in messages %}
-                <div class="alert alert-{{ category }} alert-dismissible fade show text-center" role="alert">
+                <div class="mt-alerts alert alert-{{ category }} alert-dismissible fade show text-center" role="alert">
                   {{ message }}
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             {% endfor %}
         {% endif %}
     {% endwith %}
+
     <div class="offcanvas offcanvas-start {{ 'show' if open_sidebar else '' }} hidden-scrollbar" tabindex="-1" data-bs-backdrop="false" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
         <button class="btn btn-primary btn-sm btn-transparent mb-2" type="button" data-bs-toggle="offcanvas" aria-label="Close">
             <img class="sidebar-button-image offcanvas-button-image-left" src="../static/images/offcanvas_sidebar_action_button.svg"/>
         </button>
         <div class="d-flex justify-content-center ">
-            <form method="POST" action="{{ url_for('map.main_map_page')}}">
-                {{ form.hidden_tag() }}
-
+            <form id="shortestPathCalculationForm" method="POST" action="{{ url_for('map.main_map_page')}}">
+                {{ shortest_path_calculation_form.hidden_tag() }}
                 <fieldset>
                     <legend class="border-bottom mb-2">Shortest path calculation</legend>
                     <div class="mb-1">
-                        {% if form.starting_point.errors %}
-                            {{ form.starting_point(class="form-control form-control-lg is-invalid") }}
+                        {% if shortest_path_calculation_form.starting_point.errors %}
+                            {{ shortest_path_calculation_form.starting_point(class="form-control form-control-lg is-invalid") }}
                             <div class="invalid-feedback">
-                                {% for error in form.starting_point.errors %}
+                                {% for error in shortest_path_calculation_form.starting_point.errors %}
                                     <span>{{ error }}</span>
                                 {% endfor %}
                             </div>
                         {% else %}
-                            {{ form.starting_point(class="form-control form-control-lg", placeholder="Enter starting point") }}
+                            {{ shortest_path_calculation_form.starting_point(class="form-control form-control-lg", placeholder="Enter starting point") }}
                         {% endif %}
                     </div>
                     <div class="mb-1">
-                        {% if form.destination.errors %}
-                            {{ form.destination(class="form-control form-control-lg is-invalid") }}
+                        {% if shortest_path_calculation_form.destination.errors %}
+                            {{ shortest_path_calculation_form.destination(class="form-control form-control-lg is-invalid") }}
                             <div class="invalid-feedback">
-                                {% for error in form.destination.errors %}
+                                {% for error in shortest_path_calculation_form.destination.errors %}
                                     <span>{{ error }}</span>
                                 {% endfor %}
                             </div>
                         {% else %}
-                        {{ form.destination(class="form-control form-control-lg", placeholder="Enter destination") }}
+                        {{ shortest_path_calculation_form.destination(class="form-control form-control-lg", placeholder="Enter destination") }}
                         {% endif %}
                     </div>
                 </fieldset>
@@ -57,45 +57,45 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div>
-                                {{ form.remove_stairs.label(class="form-label") }}
-                                {{ form.remove_stairs(class="form-control form-select-sm") }}
+                                {{ shortest_path_calculation_form.remove_stairs.label(class="form-label") }}
+                                {{ shortest_path_calculation_form.remove_stairs(class="form-control form-select-sm") }}
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div>
-                                {{ form.allow_shortcuts.label(class="form-label") }}
-                                {{ form.allow_shortcuts(class="form-control form-select-sm") }}
+                                {{ shortest_path_calculation_form.allow_shortcuts.label(class="form-label") }}
+                                {{ shortest_path_calculation_form.allow_shortcuts(class="form-control form-select-sm") }}
                             </div>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-md-6">
                             <div>
-                                {{ form.only_walkways.label(class="form-label") }}
-                                {% if form.only_walkways.errors %}
-                                    {{ form.only_walkways(class="form-control form-select-sm is-invalid") }}
+                                {{ shortest_path_calculation_form.only_walkways.label(class="form-label") }}
+                                {% if shortest_path_calculation_form.only_walkways.errors %}
+                                    {{ shortest_path_calculation_form.only_walkways(class="form-control form-select-sm is-invalid") }}
                                     <div class="invalid-feedback">
-                                        {% for error in form.only_walkways.errors %}
+                                        {% for error in shortest_path_calculation_form.only_walkways.errors %}
                                             <span>{{ error }}</span>
                                         {% endfor %}
                                     </div>
                                 {% else %}
-                                    {{ form.only_walkways(class="form-control form-select-sm") }}
+                                    {{ shortest_path_calculation_form.only_walkways(class="form-control form-select-sm") }}
                                 {% endif %}
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div>
-                                {{ form.only_car_paths.label(class="form-label") }}
-                                {% if form.only_car_paths.errors %}
-                                    {{ form.only_car_paths(class="form-control form-select-sm is-invalid") }}
+                                {{ shortest_path_calculation_form.only_car_paths.label(class="form-label") }}
+                                {% if shortest_path_calculation_form.only_car_paths.errors %}
+                                    {{ shortest_path_calculation_form.only_car_paths(class="form-control form-select-sm is-invalid") }}
                                     <div class="invalid-feedback">
-                                        {% for error in form.only_car_paths.errors %}
+                                        {% for error in shortest_path_calculation_form.only_car_paths.errors %}
                                             <span>{{ error }}</span>
                                         {% endfor %}
                                     </div>
                                 {% else %}
-                                    {{ form.only_car_paths(class="form-control form-select-sm") }}
+                                    {{ shortest_path_calculation_form.only_car_paths(class="form-control form-select-sm") }}
                                 {% endif %}
                             </div>
                         </div>
@@ -103,14 +103,17 @@
                 </fieldset>
                 <fieldset>
                     <div class="d-flex justify-content-center mt-2">
-                        {{ form.submit(id="submit-btn", class="btn btn-success btn-lg") }}
+                        {{ shortest_path_calculation_form.submit(id="submit-btn", class="btn btn-success btn-lg") }}
                     </div>
                 </fieldset>
             </form>
         </div>
         <hr>
+        <button type="button" class="btn btn-outline-primary btn-sm mb-1" data-bs-toggle="modal" data-bs-target="#reportedNodeModal">
+            Reported Events
+        </button>
         <a type="button" class="btn btn-outline-info btn-sm mb-1" >
-            About this website
+            About This Website
         </a>
         {% if g.email %}
             <a type="button" href="{{ url_for('report_system.logout') }}" class="btn btn-outline-danger btn-sm">
@@ -118,7 +121,7 @@
             </a>
         {% else %}
             <a type="button" href="{{ url_for('report_system.login') }}" class="btn btn-outline-danger btn-sm">
-                Staff login
+                Staff Login
             </a>
         {% endif %}
         <div class="small-screen-invisible d-flex flex-column justify-content-center mt-1">
@@ -129,8 +132,85 @@
             </p>
         </div>
     </div>
+    <div class="modal fade" id="reportedNodeModal" aria-hidden="true" aria-labelledby="reportedNodeModalLabel" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reportedNodeModalLabel">Modal 1</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Show a second modal and hide this one with the button below.
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" data-bs-target="#reportEventModal" data-bs-toggle="modal" data-bs-dismiss="modal">Open second modal</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="reportEventModal" aria-hidden="true" aria-labelledby="reportedNodeModalLabel2" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="reportedNodeModalLabel2">Report event</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="reportEventForm" method="POST" action="{{ url_for('map.main_map_page')}}">
+                        {{ report_event_form.hidden_tag() }}
+                        <fieldset>
+                            <div class="mb-3">
+                                <label class="col-form-lacbel">Node to report:</label>
+                                {% if report_event_form.node_to_report.errors %}
+                                    {{ report_event_form.node_to_report(class="form-control is-invalid") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in report_event_form.node_to_report.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ report_event_form.node_to_report(class="form-control", placeholder="Enter a valid node") }}
+                                {% endif %}
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <div class="mb-3">
+                                <label class="col-form-label">Event Description:</label>
+                                {% if report_event_form.description.errors %}
+                                    {{ report_event_form.description(class="form-control is-invalid") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in report_event_form.description.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ report_event_form.description(class="form-control", placeholder="Detailed description") }}
+                                {% endif %}
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <div class="mt-2">
+                                {{ report_event_form.submit_report(class="btn btn-success btn", onclick="disableButton(event)") }}
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button  class="btn btn-primary" data-bs-target="#reportedNodeModal" data-bs-toggle="modal" data-bs-dismiss="modal">Back to first</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if open_modal %}
+        <script>
+            document.addEventListener('DOMContentLoaded', function(){
+            var myModal = new bootstrap.Modal(document.getElementById('reportEventModal'), {});
+            myModal.show();
+        });
+        </script>
+    {% endif %}
     <script src="./static/javascript/toggle_sidebar_activation_button.js"></script>
-    <script src="./static/javascript/disable_submit.js"></script>
+    <script src="./static/javascript/on_submit.js"></script>
 {% endblock %}
 
 
