@@ -3,8 +3,8 @@ from os import getenv
 from re import search
 from datetime import datetime, timedelta
 
-from wtforms import StringField, SubmitField, SelectField, PasswordField
-from wtforms.validators import DataRequired, ValidationError, Email, EqualTo, StopValidation
+from wtforms import StringField, SubmitField, SelectField, PasswordField, TextAreaField
+from wtforms.validators import DataRequired, ValidationError, Email, EqualTo, StopValidation, Length
 from flask_wtf import FlaskForm
 from shortest_path_calculation import get_nodes
 from pymongo import MongoClient
@@ -176,3 +176,8 @@ class PasswordResetForm(FlaskForm):
     new_password = PasswordField('New Password', validators=[DataRequired(), is_password_valid])
     confirm_new_password = PasswordField('Confirm New Password', validators=[DataRequired(), EqualTo('new_password')])
     submit = SubmitField('reset password')
+
+class ReportEventForm(FlaskForm):
+    node_to_report = StringField('Node to report', validators=[DataRequired(), is_valid_node])
+    description = TextAreaField('Reason', validators=[DataRequired(), Length(min=10, max=1000)])
+    submit_report = SubmitField('Submit report')

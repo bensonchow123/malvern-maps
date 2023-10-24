@@ -61,3 +61,6 @@ Body {
 ::-webkit-scrollbar {
   width: 0;
 }
+.mt-alerts {
+    z-index: 10000;
+}
