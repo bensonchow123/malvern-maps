@@ -142,15 +142,13 @@
                 <div class="modal-body">
                     {% if events %}
                         {% for event in events %}
-                            {% for event in events %}
-                                <div class="card mb-3">
-                                    <div class="card-body">
-                                        <h5 class="card-title">At node {{ event.node }}</h5>
-                                        <p class="small text-muted mb-0">{{ event.timestamp|datetimeformat }}</p>
-                                        <p class="card-text mt-1">{{ event.description }}</p>
-                                    </div>
+                            <div class="card mb-3">
+                                <div class="card-body">
+                                    <h5 class="card-title">At node {{ event.node }}</h5>
+                                    <p class="small text-muted mb-0">{{ event.timestamp|datetimeformat }}</p>
+                                    <p class="card-text mt-1">{{ event.description }}</p>
                                 </div>
-                            {% endfor %}
+                            </div>
                         {% endfor %}
                     {% else %}
                         <p>No recent events, please refresh after a minute for server to fetch data.</p>

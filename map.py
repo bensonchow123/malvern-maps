@@ -48,7 +48,6 @@ Thread(target=fetch_data_periodically).start()
 @map.route('/', methods=['GET', 'POST'])
 def main_map_page():
     def handle_render(open_sidebar, open_modal, flash_category=None, flash_message_content=None):
-        print(pre_fetched_events)
         if flash_message_content and flash_category is not None:
             flash(flash_message_content, flash_category)
 
