@@ -1,5 +1,5 @@
 from os import getenv
-from datetime import datetime, timedelta
+from datetime import datetime
 from threading import Thread
 from time import sleep
 
@@ -27,12 +27,7 @@ def append_event(node, description):
     })
 
 def get_reported_events():
-    seven_days_ago = datetime.utcnow() - timedelta(days=7)
-    timestamp_seven_days_ago = int(seven_days_ago.timestamp())
-
-    query = {"timestamp": {"$gte": timestamp_seven_days_ago}}
-    events = malvern_maps_db["reported-events"].find(query).sort("timestamp", -1).limit(30)
-
+    events = malvern_maps_db["reported-events"].find().sort("timestamp", -1).limit(30)
     return list(events)
 
 pre_fetched_events = None
@@ -94,6 +89,14 @@ def main_map_page():
 
         if report_event_form.submit_report.data:
             if report_event_form.validate_on_submit():
+                if not g.email():
+                    return handle_render(
+                        open_sidebar=False,
+                        open_modal=False,
+                        flash_category="danger",
+                        flash_message_content="You must be logged in staff to report an event!"
+                    )
+
                 node = report_event_form.node_to_report.data
                 description = report_event_form.description.data
                 append_event(node, description)

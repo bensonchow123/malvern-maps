@@ -127,7 +127,7 @@
         <div class="small-screen-invisible d-flex flex-column justify-content-center mt-1">
             <img src="./static/images/malvern_college_crest.svg" alt="malvern college crest" class="small-screen-invisible malvern-college-crest">
             <p class="small-screen-invisible text-center">
-                Sapiens qui prospiciT - school motto<br>
+                Sapiens qui prospiciT<br>
                 (wise is he who looks ahead)
             </p>
         </div>
@@ -155,7 +155,9 @@
                     {% endif %}
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-danger btn-sm" data-bs-target="#reportEventModal" data-bs-toggle="modal" data-bs-dismiss="modal">To Report Event</button>
+                    {% if g.email %}
+                        <button class="btn btn-danger btn-sm" data-bs-target="#reportEventModal" data-bs-toggle="modal" data-bs-dismiss="modal">To Report Event</button>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -209,6 +211,7 @@
                     </form>
                 </div>
                 <div class="modal-footer">
+
                     <button  class="btn btn-primary btn-sm" data-bs-target="#reportedNodeModal" data-bs-toggle="modal" data-bs-dismiss="modal">To Reported Events</button>
                 </div>
             </div>
