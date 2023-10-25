@@ -1,4 +1,5 @@
 from os import getenv
+from datetime import datetime
 
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
@@ -15,6 +16,10 @@ limiter = Limiter(
         default_limits=["15 per minute", "500 per hour"],
         storage_uri="memory://",
 )
+
+@app.template_filter('datetimeformat')
+def datetimeformat(value):
+    return datetime.utcfromtimestamp(value).strftime('%B %d, %Y, %H:%M:%S UTC')
 
 @app.errorhandler(429)
 def ratelimit_handler(e):

@@ -1,5 +1,7 @@
 from os import getenv
 from datetime import datetime, timedelta
+from threading import Thread
+from time import sleep
 
 from flask import Blueprint, render_template, request, flash, session, g
 from forms import ShortestPathCalculationForm, ReportEventForm
@@ -29,15 +31,24 @@ def get_reported_events():
     timestamp_seven_days_ago = int(seven_days_ago.timestamp())
 
     query = {"timestamp": {"$gte": timestamp_seven_days_ago}}
-    events = malvern_maps_db["reported-events"].find(query).limit(30)
+    events = malvern_maps_db["reported-events"].find(query).sort("timestamp", -1).limit(30)
 
     return list(events)
+
+pre_fetched_events = None
+def fetch_data_periodically():
+    global pre_fetched_events
+    while True:
+        pre_fetched_events = get_reported_events()
+        print(pre_fetched_events)
+        sleep(60)
+
+Thread(target=fetch_data_periodically).start()
 
 @map.route('/', methods=['GET', 'POST'])
 def main_map_page():
     def handle_render(open_sidebar, open_modal, flash_category=None, flash_message_content=None):
-        events = get_reported_events()
-        print(events)
+        print(pre_fetched_events)
         if flash_message_content and flash_category is not None:
             flash(flash_message_content, flash_category)
 
@@ -46,7 +57,8 @@ def main_map_page():
             shortest_path_calculation_form=shortest_path_calculation_form,
             report_event_form=report_event_form,
             open_sidebar=open_sidebar,
-            open_modal=open_modal
+            open_modal=open_modal,
+            events=pre_fetched_events
         )
 
     shortest_path_calculation_form = ShortestPathCalculationForm()
