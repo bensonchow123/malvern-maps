@@ -133,14 +133,28 @@
         </div>
     </div>
     <div class="modal fade" id="reportedNodeModal" aria-hidden="true" aria-labelledby="reportedNodeModalLabel" tabindex="-1">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="reportedNodeModalLabel">Reported Events</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    Show a second modal and hide this one with the button below.
+                    {% if events %}
+                        {% for event in events %}
+                            {% for event in events %}
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <h5 class="card-title">At node {{ event.node }}</h5>
+                                        <p class="small text-muted mb-0">{{ event.timestamp|datetimeformat }}</p>
+                                        <p class="card-text mt-1">{{ event.description }}</p>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                    {% else %}
+                        <p>No recent events, please refresh after a minute for server to fetch data.</p>
+                    {% endif %}
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-danger btn-sm" data-bs-target="#reportEventModal" data-bs-toggle="modal" data-bs-dismiss="modal">To Report Event</button>
@@ -148,6 +162,7 @@
             </div>
         </div>
     </div>
+
     <div class="modal fade" id="reportEventModal" aria-hidden="true" aria-labelledby="reportedNodeModalLabel2" tabindex="-1">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -204,7 +219,7 @@
     {% if open_modal %}
         <script>
             document.addEventListener('DOMContentLoaded', function(){
-            var myModal = new bootstrap.Modal(document.getElementById('reportEventModal'), {});
+            var myModal = new bootstrap.Modal(document.getElementById('reportEventModal'));
             myModal.show();
         });
         </script>
