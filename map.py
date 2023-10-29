@@ -1,10 +1,11 @@
 from os import getenv
-from datetime import datetime
-from threading import Thread
 from time import sleep
+from threading import Thread
+from datetime import datetime
+from bson.objectid import ObjectId
 
 from flask import Blueprint, render_template, request, flash, session, g
-from forms import ShortestPathCalculationForm, ReportEventForm
+from forms import ShortestPathCalculationForm, ReportEventForm, StaffEmailAdditionForm, RemoveReportedEventForm
 from shortest_path_calculation import get_nodes, handle_select_fields, shortest_path_algorithm
 from pymongo import MongoClient
 from dotenv import load_dotenv
@@ -15,9 +16,22 @@ malvern_maps_db = malvern_maps_cluster["malvern-maps"]
 
 map = Blueprint("map", __name__)
 
+thirty_newest_events = None
+
 @map.before_request
 def get_staff_details():
     g.email = session.get('email', None)
+
+@map.record_once
+def fetch_data_on_start(setup_state):
+    Thread(target=fetch_data_periodically).start()
+
+def fetch_data_periodically():
+    global thirty_newest_events
+    while True:
+        thirty_newest_events = get_reported_events()
+        print(thirty_newest_events)
+        sleep(60)
 
 def append_event(node, description):
     malvern_maps_db["reported-events"].insert_one({
@@ -30,33 +44,44 @@ def get_reported_events():
     events = malvern_maps_db["reported-events"].find().sort("timestamp", -1).limit(30)
     return list(events)
 
-pre_fetched_events = None
-def fetch_data_periodically():
-    global pre_fetched_events
-    while True:
-        pre_fetched_events = get_reported_events()
-        print(pre_fetched_events)
-        sleep(60)
+def append_staff_email(email, staff_type):
+    malvern_maps_db["staff-emails"].insert_one({
+        "email": email,
+        "type": staff_type
+    })
 
-Thread(target=fetch_data_periodically).start()
+def delete_event(event_id):
+    malvern_maps_db["reported-events"].delete_one({"_id": ObjectId(event_id)})
 
 @map.route('/', methods=['GET', 'POST'])
 def main_map_page():
-    def handle_render(open_sidebar, open_modal, flash_category=None, flash_message_content=None):
+    def handle_render(
+            open_sidebar=False,
+            open_report_event_modal=False,
+            open_remove_reported_event_modal=False,
+            flash_category=None,
+            flash_message_content=None
+    ):
         if flash_message_content and flash_category is not None:
             flash(flash_message_content, flash_category)
+
+        events_to_display = thirty_newest_events
 
         return render_template(
             'main_map_page.html',
             shortest_path_calculation_form=shortest_path_calculation_form,
             report_event_form=report_event_form,
+            remove_reported_event_form=remove_reported_event_form,
             open_sidebar=open_sidebar,
-            open_modal=open_modal,
-            events=pre_fetched_events
+            open_report_event_modal=open_report_event_modal,
+            open_remove_reported_event_modal= open_remove_reported_event_modal,
+            events_to_display=events_to_display
         )
 
     shortest_path_calculation_form = ShortestPathCalculationForm()
     report_event_form = ReportEventForm()
+    remove_reported_event_form = RemoveReportedEventForm()
+    staff_email_addition_form = StaffEmailAdditionForm()
 
     if request.method == "POST":
         if shortest_path_calculation_form.submit.data:
@@ -72,40 +97,60 @@ def main_map_page():
                 )
                 if path is None:
                     return handle_render(
-                        open_sidebar=False,
-                        open_modal=False,
                         flash_category="danger",
                         flash_message_content="No path found!"
                     )
                 else:
                     return handle_render(
-                        open_sidebar=False,
-                        open_modal=False,
                         flash_category="success",
                         flash_message_content=f'The shortest path from {starting_point} to {destination} is {path} with'
                                               f' a distance of {distance}'
                     )
-            return handle_render(open_sidebar=True, open_modal=False)
+            return handle_render(open_sidebar=True, open_report_event_modal=False)
 
         if report_event_form.submit_report.data:
             if report_event_form.validate_on_submit():
-                if not g.email():
+                if not g.email:
                     return handle_render(
-                        open_sidebar=False,
-                        open_modal=False,
                         flash_category="danger",
-                        flash_message_content="You must be logged in staff to report an event!"
+                        flash_message_content="Staff login required to report an event!"
                     )
 
                 node = report_event_form.node_to_report.data
                 description = report_event_form.description.data
                 append_event(node, description)
                 return handle_render(
-                    open_sidebar=False,
-                    open_modal=False,
+                    open_sidebar=True,
                     flash_category="success",
-                    flash_message_content="Report submitted successfully!"
+                    flash_message_content="Report submitted! Refresh in a minute to view."
                 )
-            return handle_render(open_sidebar=True, open_modal=True)
+            return handle_render(open_sidebar=True, open_report_event_modal=True)
+
+        if remove_reported_event_form.submit_event_to_remove.data:
+            if not g.email:
+                return handle_render(
+                    flash_category="danger",
+                    flash_message_content="Staff login required to remove an event!"
+                )
+            if remove_reported_event_form.validate_on_submit():
+                event_id = remove_reported_event_form.event_to_remove_id.data
+                delete_event(event_id)
+                return handle_render(
+                    open_sidebar=True,
+                    flash_category="success",
+                    flash_message_content="Event removed! Refresh in a minute to view."
+                )
+            return handle_render(open_sidebar=True, open_remove_reported_event_modal=True)
+
+        if staff_email_addition_form.submit_staff_email.data:
+            if staff_email_addition_form.validate_on_submit():
+                email = staff_email_addition_form.email.data
+                staff_type = staff_email_addition_form.staff_type.data
+                append_staff_email(email, staff_type)
+                return handle_render(
+                    open_sidebar=True,
+                    flash_category="success",
+                    flash_message_content="Staff email added!"
+                )
 
     return handle_render(False, False)
