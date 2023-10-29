@@ -1,6 +1,6 @@
-from json import load
 from os import getenv
 from re import search
+from bson.objectid import ObjectId
 from datetime import datetime, timedelta
 
 from wtforms import StringField, SubmitField, SelectField, PasswordField, TextAreaField
@@ -88,9 +88,10 @@ class StopValidationEmail(Email):
             raise StopValidation()
 
 def is_email_allowed(form, field):
-    with open("./static/json/staff_email.json") as staffs:
-        allowed_emails = load(staffs)
-    if field.data not in allowed_emails.keys():
+    inputted_email = field.data
+    staff_emails_db = malvern_maps_db["staff-emails"]
+    staff_emails = staff_emails_db.find_one({"email": inputted_email})
+    if not staff_emails:
         field.errors.append("Email not allowed to register an account")
         raise StopValidation()
 
@@ -181,3 +182,35 @@ class ReportEventForm(FlaskForm):
     node_to_report = StringField('Node to report', validators=[DataRequired(), is_valid_node])
     description = TextAreaField('Reason', validators=[DataRequired(), Length(min=10, max=1000)])
     submit_report = SubmitField('Submit report')
+
+def is_valid_reported_event(form, field):
+    event_id = field.data
+    reported_events = malvern_maps_db["reported-events"]
+    try:
+        event_id = ObjectId(event_id)
+    except Exception:
+        field.errors.append("Invalid event ID")
+        raise StopValidation()
+
+    found_event = reported_events.find_one({"_id": event_id})
+    if not found_event:
+        field.errors.append("Event with this ID not found")
+        raise StopValidation()
+
+class RemoveReportedEventForm(FlaskForm):
+    event_to_remove_id = StringField('Event ID', validators=[DataRequired(), is_valid_reported_event])
+    submit_event_to_remove = SubmitField('Remove event')
+class StaffEmailAdditionForm(FlaskForm):
+    email = StringField(
+        'Email',
+        validators=[
+            DataRequired(),
+            StopValidationEmail(),
+        ]
+    )
+    staff_type = SelectField(
+        'Type',
+        choices=[('staff', 'Staff'), ('admin', 'Admin')],
+        validators=[DataRequired()]
+    )
+    submit_staff_email = SubmitField('Add email')
