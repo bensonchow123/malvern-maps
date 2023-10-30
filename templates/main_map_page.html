@@ -21,7 +21,7 @@
 
     <div class="offcanvas offcanvas-start {{ 'show' if open_sidebar else '' }} hidden-scrollbar" tabindex="-1" data-bs-backdrop="false" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
         <button class="btn btn-primary btn-sm btn-transparent mb-2" type="button" data-bs-toggle="offcanvas" aria-label="Close">
-            <img class="sidebar-button-image offcanvas-button-image-left" src="../static/images/offcanvas_sidebar_action_button.svg"/>
+            <img class="sidebar-button-image offcanvas-button-image-left" src="../static/images/offcanvas_sidebar_action_button.svg" alt="button image"/>
         </button>
         <div class="d-flex justify-content-center ">
             <form id="shortestPathCalculationForm" method="POST" action="{{ url_for('map.main_map_page')}}">
@@ -112,6 +112,11 @@
         <button type="button" class="btn btn-outline-primary btn-sm mb-1" data-bs-toggle="modal" data-bs-target="#reportedNodeModal">
             Reported Events
         </button>
+        {% if g.admin %}
+            <a type="button" class="btn btn-outline-secondary btn-sm mb-1" data-bs-toggle="modal" data-bs-target="#manageStaffModal">
+                Manage staff
+            </a>
+        {% endif %}
         <a type="button" class="btn btn-outline-info btn-sm mb-1" >
             About This Website
         </a>
@@ -136,7 +141,7 @@
         <div class="modal-dialog modal-dialog-scrollable">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Reported Events</h5>
+                    <h5 class="modal-title">Reported Events Modal</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -223,7 +228,7 @@
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title">Report event</h5>
+                    <h5 class="modal-title">Report event modal</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -252,7 +257,51 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button  class="btn btn-secondary btn-sm" data-bs-target="#reportedNodeModal" data-bs-toggle="modal" data-bs-dismiss="modal">Previous page</button>
+                    <button class="btn btn-secondary btn-sm" data-bs-target="#reportedNodeModal" data-bs-toggle="modal" data-bs-dismiss="modal">Previous page</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="manageStaffModal" aria-hidden="true" aria-labelledby="manageStaffModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Manage staff modal</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form method="POST" action="{{ url_for('map.main_map_page')}}">
+                        {{ manage_staff_form.hidden_tag() }}
+                        <fieldset>
+                            <div class="mb-3">
+                                <label class="col-form-label">Staff email:</label>
+                                {% if manage_staff_form.email.errors %}
+                                    {{ manage_staff_form.email(class="form-control is-invalid") }}
+                                    <div class="invalid-feedback">
+                                        {% for error in manage_staff_form.email.errors %}
+                                            <span>{{ error }}</span>
+                                        {% endfor %}
+                                    </div>
+                                {% else %}
+                                    {{ manage_staff_form.email(class="form-control", placeholder="Valid email") }}
+                                {% endif %}
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <div>
+                                <label class="col-form-label">Staff type:</label><br>
+                                {{ manage_staff_form.action(class="form-select-sm") }}
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <div class="mt-4">
+                                {{ manage_staff_form.submit_staff_action(class="btn btn-success") }}
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close modal</button>
                 </div>
             </div>
         </div>
@@ -269,6 +318,14 @@
         <script>
             document.addEventListener('DOMContentLoaded', function(){
             var Modal = new bootstrap.Modal(document.getElementById('reportEventModal'));
+            Modal.show();
+        });
+        </script>
+    {% endif %}
+    {% if open_manage_staff_modal %}
+        <script>
+            document.addEventListener('DOMContentLoaded', function(){
+            var Modal = new bootstrap.Modal(document.getElementById('manageStaffModal'));
             Modal.show();
         });
         </script>

@@ -1,14 +1,12 @@
 from os import getenv
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
-from flask import Flask, render_template
+from flask import Flask, render_template, session
 from map import map
 from report_system import report_system
-from dotenv import load_dotenv
 
-load_dotenv()
 app = Flask(__name__)
 limiter = Limiter(
         get_remote_address,
@@ -16,6 +14,11 @@ limiter = Limiter(
         default_limits=["15 per minute", "500 per hour"],
         storage_uri="memory://",
 )
+
+@app.before_request
+def make_session_permanent():
+    session.permanent = True
+    app.permanent_session_lifetime = timedelta(weeks=2)
 
 @app.template_filter('datetimeformat')
 def datetimeformat(value):

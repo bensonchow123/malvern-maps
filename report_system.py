@@ -21,6 +21,7 @@ malvern_maps_db = malvern_maps_cluster["malvern-maps"]
 def record_params(setup_state):
     global serializer, mail
     app = setup_state.app
+    app.config['SESSION_PERMANENT'] = True
     app.config['SESSION_COOKIE_NAME'] = "staff details"
     app.config['SESSION_LIFETIME'] = timedelta(weeks=2)
     app.config['MAIL_SERVER'] = 'smtp.gmail.com'
@@ -33,13 +34,16 @@ def record_params(setup_state):
 
 def check_logged_in():
     if "email" in session:
-        flash("logout in the sidebar to access this page", "danger")
+        flash("logout at the sidebar to access this page", "danger")
         return True
 
 def check_logged_out():
     if "email" not in session:
-        flash("login in the sidebar to access this page", "danger")
+        flash("login at the sidebar to access this page", "danger")
         return True
+
+def check_if_admin(email):
+    return malvern_maps_db["staff-emails"].find_one({"email": email})["admin"] == True
 
 @report_system.route('/login', methods=['GET', 'POST'])
 def login():
@@ -52,7 +56,10 @@ def login():
             if form.validate_on_submit():
                 session.clear()
                 session['email'] = form.email.data
+                if check_if_admin(form.email.data):
+                    session['admin'] = True
                 flash("You logged in successfully", "success")
+                flash("From now on security checks will cause significant longer load times due to no funding.","warning")
                 return redirect(url_for('map.main_map_page'))
 
     return render_template('login.html', form=form)
