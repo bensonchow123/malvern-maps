@@ -200,17 +200,37 @@ def is_valid_reported_event(form, field):
 class RemoveReportedEventForm(FlaskForm):
     event_to_remove_id = StringField('Event ID', validators=[DataRequired(), is_valid_reported_event])
     submit_event_to_remove = SubmitField('Remove event')
-class StaffEmailAdditionForm(FlaskForm):
+
+def prevent_duplicate_staff_info(form, field):
+    email = field.data
+    action = form.action.data
+    staff_emails = malvern_maps_db["staff-emails"]
+    found_email = staff_emails.find_one({"email": email})
+    if found_email:
+        if action == 'admin' and found_email["admin"]:
+            field.errors.append("Email already an admin")
+            raise StopValidation()
+
+        elif action == 'staff' and not found_email["admin"]:
+            field.errors.append("Email already a staff")
+            raise StopValidation()
+
+    elif action == 'remove' and not found_email:
+        field.errors.append("Email is not a staff member")
+        raise StopValidation()
+
+class ManageStaffForm(FlaskForm):
     email = StringField(
         'Email',
         validators=[
             DataRequired(),
             StopValidationEmail(),
+            prevent_duplicate_staff_info
         ]
     )
-    staff_type = SelectField(
+    action = SelectField(
         'Type',
-        choices=[('staff', 'Staff'), ('admin', 'Admin')],
+        choices=[('staff', 'Set as staff'), ('admin', 'Set as admin'), ('remove', 'Remove from staff')],
         validators=[DataRequired()]
     )
-    submit_staff_email = SubmitField('Add email')
+    submit_staff_action = SubmitField('Submit staff action')

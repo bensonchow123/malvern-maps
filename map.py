@@ -5,7 +5,7 @@ from datetime import datetime
 from bson.objectid import ObjectId
 
 from flask import Blueprint, render_template, request, flash, session, g
-from forms import ShortestPathCalculationForm, ReportEventForm, StaffEmailAdditionForm, RemoveReportedEventForm
+from forms import ShortestPathCalculationForm, ReportEventForm, ManageStaffForm, RemoveReportedEventForm
 from shortest_path_calculation import get_nodes, handle_select_fields, shortest_path_algorithm
 from pymongo import MongoClient
 from dotenv import load_dotenv
@@ -19,12 +19,23 @@ map = Blueprint("map", __name__)
 thirty_newest_events = None
 
 @map.before_request
-def get_staff_details():
+def handle_staff_details():
+    if 'email' in session:
+        update_staff_session()
     g.email = session.get('email', None)
+    g.admin = session.get('admin', None)
 
 @map.record_once
 def fetch_data_on_start(setup_state):
     Thread(target=fetch_data_periodically).start()
+
+def update_staff_session():
+    email = session['email']
+    staff_data = malvern_maps_db["staff-emails"].find_one({"email": email})
+    if not staff_data:
+        session.clear()
+    else:
+        session['admin'] = staff_data["admin"]
 
 def fetch_data_periodically():
     global thirty_newest_events
@@ -44,11 +55,20 @@ def get_reported_events():
     events = malvern_maps_db["reported-events"].find().sort("timestamp", -1).limit(30)
     return list(events)
 
-def append_staff_email(email, staff_type):
-    malvern_maps_db["staff-emails"].insert_one({
-        "email": email,
-        "type": staff_type
-    })
+def do_staff_action(email, action):
+    if action == "remove":
+        malvern_maps_db["registered-accounts"].delete_many({"email": email})
+        malvern_maps_db["staff-emails"].delete_many({"email": email})
+        return
+
+    admin = False
+    if action == "admin":
+        admin = True
+    malvern_maps_db["staff-emails"].update_one(
+        {"email": email},
+        {"$set": {"admin": admin}},
+        upsert=True
+    )
 
 def delete_event(event_id):
     malvern_maps_db["reported-events"].delete_one({"_id": ObjectId(event_id)})
@@ -59,6 +79,7 @@ def main_map_page():
             open_sidebar=False,
             open_report_event_modal=False,
             open_remove_reported_event_modal=False,
+            open_manage_staff_modal=False,
             flash_category=None,
             flash_message_content=None
     ):
@@ -72,16 +93,18 @@ def main_map_page():
             shortest_path_calculation_form=shortest_path_calculation_form,
             report_event_form=report_event_form,
             remove_reported_event_form=remove_reported_event_form,
+            manage_staff_form=manage_staff_form,
             open_sidebar=open_sidebar,
             open_report_event_modal=open_report_event_modal,
             open_remove_reported_event_modal= open_remove_reported_event_modal,
+            open_manage_staff_modal=open_manage_staff_modal,
             events_to_display=events_to_display
         )
 
     shortest_path_calculation_form = ShortestPathCalculationForm()
     report_event_form = ReportEventForm()
     remove_reported_event_form = RemoveReportedEventForm()
-    staff_email_addition_form = StaffEmailAdditionForm()
+    manage_staff_form = ManageStaffForm()
 
     if request.method == "POST":
         if shortest_path_calculation_form.submit.data:
@@ -142,15 +165,21 @@ def main_map_page():
                 )
             return handle_render(open_sidebar=True, open_remove_reported_event_modal=True)
 
-        if staff_email_addition_form.submit_staff_email.data:
-            if staff_email_addition_form.validate_on_submit():
-                email = staff_email_addition_form.email.data
-                staff_type = staff_email_addition_form.staff_type.data
-                append_staff_email(email, staff_type)
+        if manage_staff_form.submit_staff_action.data:
+            if not g.admin:
+                return handle_render(
+                    flash_category="danger",
+                    flash_message_content="Only admins can preform staff action!"
+                )
+            if manage_staff_form.validate_on_submit():
+                email = manage_staff_form.email.data
+                action = manage_staff_form.action.data
+                do_staff_action(email, action)
                 return handle_render(
                     open_sidebar=True,
                     flash_category="success",
-                    flash_message_content="Staff email added!"
+                    flash_message_content=f"Action to {email} is finished! Refresh in a minute to view."
                 )
+            return handle_render(open_sidebar=True, open_manage_staff_modal=True)
 
-    return handle_render(False, False)
+    return handle_render()
