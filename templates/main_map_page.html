@@ -2,9 +2,13 @@
 
 {% block head %}
     <link type="text/css" rel="stylesheet" href="{{ url_for('static', filename = 'css/main_map_page.css') }}">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+     integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+     crossorigin=""/>
 {% endblock %}
 
 {% block body %}
+    {% include 'map.html' %}
     <button class="btn btn-primary btn-sm btn-transparent" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar">
         <img class="sidebar-button-image" src="../static/images/offcanvas_sidebar_action_button.svg" alt="Sidebar icon"/>
     </button>
@@ -330,6 +334,11 @@
         });
         </script>
     {% endif %}
+     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+     crossorigin="">
+     </script>
+    <script src="./static/javascript/map.js"></script>
     <script src="./static/javascript/toggle_sidebar_activation_button.js"></script>
     <script src="./static/javascript/on_submit.js"></script>
 {% endblock %}
