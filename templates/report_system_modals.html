@@ -1,0 +1,193 @@
+<div class="modal fade" id="reportedNodeModal" aria-hidden="true" aria-labelledby="reportedNodeModalLabel" tabindex="-1">
+    <div class="modal-dialog modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Reported Events Modal</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                {% if events_to_display %}
+                    {% for event in events_to_display %}
+                        <div class="card mb-3">
+                            <div class="card-body">
+                                <h5 class="card-title">At node {{ event.node }}</h5>
+                                <div class="text-muted mb-0" style="font-size: 0.75em;">{{ event.timestamp|datetimeformat }}</div>
+                                <p class="card-text mt-1">{{ event.description }}</p>
+                                <div class="text-muted" style="font-size: 0.75em;">ID: {{ event._id }} </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>Most recent events not found. Refresh with the button below within a minute for updates.</p>
+                    <button onclick="location.reload();" class="btn btn-primary">Refresh</button>
+                {% endif %}
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-success btn-sm" >Search Events</button>
+                {% if g.email %}
+                    <button class="btn btn-secondary btn-sm" data-bs-target="#removeReportedEventModal" data-bs-toggle="modal" data-bs-dismiss="modal">Remove Event</button>
+                    <button class="btn btn-danger btn-sm" data-bs-target="#reportEventModal" data-bs-toggle="modal" data-bs-dismiss="modal">Report Event</button>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="reportEventModal" aria-hidden="true" aria-labelledby="reportedNodeModalLabel" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Report event</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{{ url_for('map.main_map_page')}}">
+                    {{ report_event_form.hidden_tag() }}
+                    <fieldset>
+                        <div class="mb-3">
+                            <label class="col-form-lacbel">Node to report:</label>
+                            {% if report_event_form.node_to_report.errors %}
+                                {{ report_event_form.node_to_report(class="form-control is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in report_event_form.node_to_report.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ report_event_form.node_to_report(class="form-control", placeholder="Enter a valid node") }}
+                            {% endif %}
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <div class="mb-3">
+                            <label class="col-form-label">Event Description:</label>
+                            {% if report_event_form.description.errors %}
+                                {{ report_event_form.description(class="form-control is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in report_event_form.description.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ report_event_form.description(class="form-control", placeholder="Detailed description") }}
+                            {% endif %}
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <div class="mt-2">
+                            {{ report_event_form.submit_report(class="btn btn-success") }}
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button  class="btn btn-secondary btn-sm" data-bs-target="#reportedNodeModal" data-bs-toggle="modal" data-bs-dismiss="modal">Previous page</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="removeReportedEventModal" aria-hidden="true" aria-labelledby="removeReportedEventModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Report event modal</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{{ url_for('map.main_map_page')}}">
+                    {{ remove_reported_event_form.hidden_tag() }}
+                    <fieldset>
+                        <div class="mb-3">
+                            <label class="col-form-lacbel">Event ID:</label>
+                            {% if remove_reported_event_form.event_to_remove_id.errors %}
+                                {{ remove_reported_event_form.event_to_remove_id(class="form-control is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in remove_reported_event_form.event_to_remove_id.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ remove_reported_event_form.event_to_remove_id(class="form-control", placeholder="Full event ID") }}
+                            {% endif %}
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <div class="mt-2">
+                            {{ remove_reported_event_form.submit_event_to_remove(class="btn btn-success") }}
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary btn-sm" data-bs-target="#reportedNodeModal" data-bs-toggle="modal" data-bs-dismiss="modal">Previous page</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="manageStaffModal" aria-hidden="true" aria-labelledby="manageStaffModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Manage staff modal</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form method="POST" action="{{ url_for('map.main_map_page')}}">
+                    {{ manage_staff_form.hidden_tag() }}
+                    <fieldset>
+                        <div class="mb-3">
+                            <label class="col-form-label">Staff email:</label>
+                            {% if manage_staff_form.email.errors %}
+                                {{ manage_staff_form.email(class="form-control is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in manage_staff_form.email.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ manage_staff_form.email(class="form-control", placeholder="Valid email") }}
+                            {% endif %}
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <div>
+                            <label class="col-form-label">Staff type:</label><br>
+                            {{ manage_staff_form.action(class="form-select-sm") }}
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <div class="mt-4">
+                            {{ manage_staff_form.submit_staff_action(class="btn btn-success") }}
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close modal</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% if open_remove_reported_event_modal %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function(){
+        var Modal = new bootstrap.Modal(document.getElementById('removeReportedEventModal'));
+        Modal.show();
+    });
+    </script>
+{% endif %}
+{% if open_report_event_modal %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function(){
+        var Modal = new bootstrap.Modal(document.getElementById('reportEventModal'));
+        Modal.show();
+    });
+    </script>
+{% endif %}
+{% if open_manage_staff_modal %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function(){
+        var Modal = new bootstrap.Modal(document.getElementById('manageStaffModal'));
+        Modal.show();
+    });
+    </script>
+{% endif %}
