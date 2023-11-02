@@ -21,16 +21,16 @@
 
         <!-- open Graph / Facebook meta tags-->
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://example.com" />
+        <meta property="og:url" content="{{ url_for('map.main_map_page', _external=True)}}" />
         <meta property="og:title" content="Malvern Maps" />
-        <meta property="og:description" content="Discover the quickest route to your daily destinations with our new shortest path calculation app!" />
+        <meta property="og:description" content="Student made interactive map with a shortest path calculation feature for Malvern College!" />
         <meta property="og:image" content="../static/images/malvern_maps_logo.png" />
 
         <!-- twitter meta tags-->
         <meta property="twitter:card" content="summary_large_image" />
-        <meta property="twitter:url" content="https://example.com" />
+        <meta property="twitter:url" content="{{ url_for('map.main_map_page', _external=True)}}" />
         <meta property="twitter:title" content="Malvern Maps" />
-        <meta property="twitter:description" content="Introducing the all-new shortest path calculation app, designed to help you find the quickest route to your daily destinations!" />
+        <meta property="twitter:description" content="Student made interactive map with a shortest path calculation feature for Malvern College!" />
         <meta property="twitter:image" content="https://metatags.io/images/meta-tags.png" />
 
         <!-- stylesheets -->
