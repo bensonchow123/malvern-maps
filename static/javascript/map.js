@@ -18,3 +18,5 @@ L.control.zoom({
 }).addTo(map);
 
 map.setView([imageBounds[1][1] / 2, imageBounds[1][0] / 2]);
+
+setTimeout(function(){ map.invalidateSize()}, 500);
