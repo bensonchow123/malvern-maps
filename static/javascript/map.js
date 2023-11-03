@@ -2,7 +2,7 @@ var imageUrl = '/static/images/map.png';
 var imageBounds= [[0, 0], [1567, 1653]];
 
 var map = L.map('map', {
-    zoom: window.innerWidth <= 800 ? -1 : 0,
+    maxZoom: 5,
     minZoom: -1.5,
     zoomControl: false,
     attributionControl: false,
@@ -38,7 +38,11 @@ L.geoJSON(geojsonFeature, {
     onEachFeature: onEachFeature
 }).addTo(map);
 
-map.setView([1132, 898]);
+if (window.innerWidth <= 800) {
+    map.setView([873, 853], -1);
+} else {
+    map.setView([1132, 898], 0);
+}
 
 map.on('click', function(e) {
     var coord = e.latlng;
