@@ -39,7 +39,7 @@ L.geoJSON(geojsonFeature, {
 }).addTo(map);
 
 if (window.innerWidth <= 800) {
-    map.setView([873, 853], -1);
+    map.setView([780, 852], -1);
 } else {
     map.setView([1132, 898], 0);
 }
