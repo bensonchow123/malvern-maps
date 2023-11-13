@@ -41,7 +41,7 @@ L.geoJSON(geojsonFeature, {
 if (window.innerWidth <= 800) {
     map.setView([1072, 819], -1);
 } else {
-    map.setView([1496, 901], 0);
+    map.setView([1510, 841], 0);
 }
 
 map.on('click', function(e) {
