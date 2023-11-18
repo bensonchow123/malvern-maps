@@ -3,8 +3,9 @@ from re import search
 from bson.objectid import ObjectId
 from datetime import datetime, timedelta
 
-from wtforms import StringField, SubmitField, SelectField, PasswordField, TextAreaField
-from wtforms.validators import DataRequired, ValidationError, Email, EqualTo, StopValidation, Length
+from wtforms import StringField, SubmitField, SelectField, PasswordField, TextAreaField, SelectMultipleField, IntegerField
+from wtforms.validators import DataRequired, ValidationError, Email, EqualTo, StopValidation, Length, NumberRange, Optional
+from wtforms.widgets import ListWidget, CheckboxInput
 from flask_wtf import FlaskForm
 from shortest_path_calculation import get_nodes
 from pymongo import MongoClient
@@ -234,3 +235,48 @@ class ManageStaffForm(FlaskForm):
         validators=[DataRequired()]
     )
     submit_staff_action = SubmitField('Submit staff action')
+
+
+class AtLeastOneField(object):
+    def __init__(self, other_field_name, message=None):
+        self.other_field_name = other_field_name
+        if not message:
+            message = f'At least one field must have data'
+        self.message = message
+
+    def __call__(self, form, field):
+        try:
+            other_field = form[self.other_field_name]
+        except KeyError:
+            raise ValidationError(field.gettext("Invalid field name '%s'.") % self.other_field_name)
+        if not field.data and not other_field.data:
+            field.errors.append(self.message)
+            other_field.errors = []
+            other_field.errors.append(self.message)
+            raise StopValidation()
+class MultiCheckboxField(SelectMultipleField):
+    widget = ListWidget(prefix_label=False)
+    option_widget = CheckboxInput()
+
+class FilterEventsForm(FlaskForm):
+    groups_to_filter = MultiCheckboxField(
+        'Filter by groups',
+        choices=[
+            ('c', 'car paths'),
+            ('h', 'shortcuts'),
+            ('s', 'stairs'),
+            ('w', 'walkways')
+        ],
+        validators=[
+            AtLeastOneField('number_to_filter')
+        ]
+    )
+    number_to_filter = IntegerField(
+        'filter by group number',
+        validators=[
+            AtLeastOneField('groups_to_filter'),
+            Optional(),
+            NumberRange(min=1, max=78),
+        ]
+    )
+    submit_filter_param = SubmitField('Filter nodes')

@@ -23,7 +23,7 @@
                 {% endif %}
             </div>
             <div class="modal-footer">
-                <button class="btn btn-success btn-sm" >Search Events</button>
+                <button class="btn btn-success btn-sm" data-bs-target="#filterEventsModal" data-bs-toggle="modal" data-bs-dismiss="modal" >Filter Events</button>
                 {% if g.email %}
                     <button class="btn btn-secondary btn-sm" data-bs-target="#removeReportedEventModal" data-bs-toggle="modal" data-bs-dismiss="modal">Remove Event</button>
                     <button class="btn btn-danger btn-sm" data-bs-target="#reportEventModal" data-bs-toggle="modal" data-bs-dismiss="modal">Report Event</button>
@@ -167,6 +167,70 @@
         </div>
     </div>
 </div>
+<div class="modal fade" id="filterEventsModal" aria-hidden="true" aria-labelledby="filterEventsModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Filter Events Modal</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+            <p >Node IDs indicate path types: c for car paths, h for shortcuts, s for stairs, w for walkways.</p>
+            <p>The number following the letters in the ID represents its sequence in the node group.</p>
+            <p>E.g. To find C1, select car paths and input 1.</p>
+                <form method="POST" action="{{ url_for('map.main_map_page')}}">
+                    {{ filter_events_form.hidden_tag() }}
+                    <fieldset>
+                        <div>
+                            <label class="col-form-label">Groups to filter:</label>
+                            {% if filter_events_form.groups_to_filter.errors %}
+                                {{ filter_events_form.groups_to_filter(class="form-control is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in filter_events_form.groups_to_filter.errors %}
+                                        <span>{{ error }}</span>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ filter_events_form.groups_to_filter(class="form-control")}}
+                            {% endif %}
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <div class="mb-3">
+                            <label class="col-form-label">Filter by group number:</label>
+                            {% if filter_events_form.number_to_filter.errors %}
+                                {{ filter_events_form.number_to_filter(class="form-control is-invalid") }}
+                                <div class="invalid-feedback">
+                                    {% for error in filter_events_form.number_to_filter.errors %}
+                                        <span>{{ error }}</span><br>
+                                    {% endfor %}
+                                </div>
+                            {% else %}
+                                {{ filter_events_form.number_to_filter(class="form-control", placeholder="Valid group number") }}
+                            {% endif %}
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <div class="mt-4">
+                            {{ filter_events_form.submit_filter_param(class="btn btn-success") }}
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button  class="btn btn-secondary btn-sm" data-bs-target="#reportedNodeModal" data-bs-toggle="modal" data-bs-dismiss="modal">Previous page</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% if open_reported_node_modal %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function(){
+        var Modal = new bootstrap.Modal(document.getElementById('reportedNodeModal'));
+        Modal.show();
+    });
+    </script>
+{% endif %}
 {% if open_remove_reported_event_modal %}
     <script>
         document.addEventListener('DOMContentLoaded', function(){
@@ -187,6 +251,14 @@
     <script>
         document.addEventListener('DOMContentLoaded', function(){
         var Modal = new bootstrap.Modal(document.getElementById('manageStaffModal'));
+        Modal.show();
+    });
+    </script>
+{% endif %}
+{% if open_filter_events_modal %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function(){
+        var Modal = new bootstrap.Modal(document.getElementById('filterEventsModal'));
         Modal.show();
     });
     </script>
