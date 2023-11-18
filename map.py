@@ -5,7 +5,7 @@ from datetime import datetime
 from bson.objectid import ObjectId
 
 from flask import Blueprint, render_template, request, flash, session, g
-from forms import ShortestPathCalculationForm, ReportEventForm, ManageStaffForm, RemoveReportedEventForm
+from forms import ShortestPathCalculationForm, ReportEventForm, ManageStaffForm, RemoveReportedEventForm, FilterEventsForm
 from shortest_path_calculation import get_nodes, handle_select_fields, shortest_path_algorithm
 from pymongo import MongoClient
 from dotenv import load_dotenv
@@ -13,6 +13,7 @@ load_dotenv()
 
 malvern_maps_cluster = MongoClient(getenv("MONGODB_URL"))
 malvern_maps_db = malvern_maps_cluster["malvern-maps"]
+reported_events_db = malvern_maps_db["reported-events"]
 
 map = Blueprint("map", __name__)
 
@@ -45,14 +46,14 @@ def fetch_data_periodically():
         sleep(60)
 
 def append_event(node, description):
-    malvern_maps_db["reported-events"].insert_one({
+    reported_events_db.insert_one({
         "timestamp": int(datetime.utcnow().timestamp()),
         "node": node,
         "description": description
     })
 
 def get_reported_events():
-    events = malvern_maps_db["reported-events"].find().sort("timestamp", -1).limit(30)
+    events = reported_events_db.find().sort("timestamp", -1).limit(30)
     return list(events)
 
 def do_staff_action(email, action):
@@ -73,20 +74,34 @@ def do_staff_action(email, action):
 def delete_event(event_id):
     malvern_maps_db["reported-events"].delete_one({"_id": ObjectId(event_id)})
 
+def get_filtered_events(groups_to_filter, number_to_filter):
+    filter = {"node": {"$regex": ""}}
+    if groups_to_filter:
+        filter["node"]["$regex"] += "[" + "".join(groups_to_filter) + "]"
+    if number_to_filter:
+        filter["node"]["$regex"] += "|{}".format(number_to_filter)
+
+    results = reported_events_db.find(filter)
+
+    return list(results)
+
+
+
 @map.route('/', methods=['GET', 'POST'])
 def main_map_page():
     def handle_render(
             open_sidebar=False,
+            open_reported_node_modal=False,
             open_report_event_modal=False,
             open_remove_reported_event_modal=False,
             open_manage_staff_modal=False,
+            open_filter_events_modal=False,
             flash_category=None,
-            flash_message_content=None
+            flash_message_content=None,
+            events_to_display = thirty_newest_events
     ):
         if flash_message_content and flash_category is not None:
             flash(flash_message_content, flash_category)
-
-        events_to_display = thirty_newest_events
 
         return render_template(
             'main_map_page.html',
@@ -94,10 +109,13 @@ def main_map_page():
             report_event_form=report_event_form,
             remove_reported_event_form=remove_reported_event_form,
             manage_staff_form=manage_staff_form,
+            filter_events_form=filter_events_form,
             open_sidebar=open_sidebar,
+            open_reported_node_modal=open_reported_node_modal,
             open_report_event_modal=open_report_event_modal,
             open_remove_reported_event_modal= open_remove_reported_event_modal,
             open_manage_staff_modal=open_manage_staff_modal,
+            open_filter_events_modal=open_filter_events_modal,
             events_to_display=events_to_display
         )
 
@@ -105,6 +123,7 @@ def main_map_page():
     report_event_form = ReportEventForm()
     remove_reported_event_form = RemoveReportedEventForm()
     manage_staff_form = ManageStaffForm()
+    filter_events_form = FilterEventsForm()
 
     if request.method == "POST":
         if shortest_path_calculation_form.submit.data:
@@ -181,5 +200,18 @@ def main_map_page():
                     flash_message_content=f"Action to {email} is finished! Refresh in a minute to view."
                 )
             return handle_render(open_sidebar=True, open_manage_staff_modal=True)
+
+        if filter_events_form.submit_filter_param.data:
+            if filter_events_form.validate_on_submit():
+                groups_to_filter = filter_events_form.groups_to_filter.data
+                number_to_filter = filter_events_form.number_to_filter.data
+                filtered_events = get_filtered_events(groups_to_filter, number_to_filter)
+                print(filtered_events)
+                return handle_render(
+                    open_sidebar=True,
+                    open_reported_node_modal=True,
+                    events_to_display=filtered_events
+                )
+            return handle_render(open_sidebar=True, open_filter_events_modal=True)
 
     return handle_render()

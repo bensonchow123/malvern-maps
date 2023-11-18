@@ -57,7 +57,7 @@
   width: 0;
 }
 .mt-alerts {
-    z-index: 10000;
+    z-index: 1055;
 }
 #map {
     position: fixed;
@@ -67,4 +67,7 @@
     width: 100%;
     z-index: -1;
     background-color: #123320;
+}
+ul {
+    list-style-type: none;
 }
