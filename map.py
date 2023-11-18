@@ -77,13 +77,13 @@ def delete_event(event_id):
 def get_filtered_events(groups_to_filter, number_to_filter):
     filter = {"node": {"$regex": ""}}
     if groups_to_filter:
-        filter["node"]["$regex"] += "[" + "".join(groups_to_filter) + "]"
-    if number_to_filter:
-        filter["node"]["$regex"] += "|{}".format(number_to_filter)
+        filter["node"]["$regex"] += ".*[" + "".join(groups_to_filter) + "].*"
+    if number_to_filter is not None:
+        filter["node"]["$regex"] += str(number_to_filter) + "$"
 
     results = reported_events_db.find(filter).sort('timestamp', -1).limit(30)
-
     return list(results)
+
 
 @map.route('/', methods=['GET', 'POST'])
 def main_map_page():
