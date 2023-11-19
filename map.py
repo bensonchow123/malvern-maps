@@ -78,11 +78,14 @@ def get_filtered_events(groups_to_filter, number_to_filter):
     filter = {"node": {"$regex": ""}}
     if groups_to_filter:
         filter["node"]["$regex"] += ".*[" + "".join(groups_to_filter) + "].*"
-    if number_to_filter is not None:
+    if number_to_filter:
         filter["node"]["$regex"] += str(number_to_filter) + "$"
 
     results = reported_events_db.find(filter).sort('timestamp', -1).limit(30)
-    return list(results)
+    results = list(results)
+    # prioritize matches with fewer irrelevant characters
+    results.sort(key=lambda x: len([c for c in x['node'] if c not in groups_to_filter]))
+    return results
 
 
 @map.route('/', methods=['GET', 'POST'])
@@ -204,12 +207,19 @@ def main_map_page():
                 groups_to_filter = filter_events_form.groups_to_filter.data
                 number_to_filter = filter_events_form.number_to_filter.data
                 filtered_events = get_filtered_events(groups_to_filter, number_to_filter)
-                print(filtered_events)
-                return handle_render(
-                    open_sidebar=True,
-                    open_reported_node_modal=True,
-                    events_to_display=filtered_events
-                )
+                if filtered_events:
+                    return handle_render(
+                        open_sidebar=True,
+                        open_reported_node_modal=True,
+                        events_to_display=filtered_events
+                    )
+                else:
+                    return handle_render(
+                        open_sidebar=True,
+                        open_reported_node_modal=True,
+                        flash_category="danger",
+                        flash_message_content=f"No matching events found.",
+                    )
             return handle_render(open_sidebar=True, open_filter_events_modal=True)
 
     return handle_render()

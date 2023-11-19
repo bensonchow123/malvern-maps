@@ -18,8 +18,8 @@
                         </div>
                     {% endfor %}
                 {% else %}
-                    <p>No events found. Refresh with button below to reset filters.</p>
-                    <p>If none appear post-refresh, no events are loaded or database issue.</p>
+                    <p>No events found. Refresh with button below after waiting a bit.</p>
+                    <p>If no events appear post-refresh, there is database issue.</p>
                     <button onclick="refreshPage();" class="btn btn-primary">Refresh</button>
                 {% endif %}
             </div>
@@ -265,11 +265,8 @@
     </script>
 {% endif %}
 <script>
-function refreshPage() {
-    // Replace the URL in the history
-    window.history.replaceState({}, document.title, window.location.pathname);
-
-    // Reload the page
-    location.reload();
-}
+    function refreshPage() {
+        window.history.replaceState({}, document.title, window.location.pathname);
+        location.reload();
+    }
 </script>
