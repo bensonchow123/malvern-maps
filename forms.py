@@ -236,13 +236,10 @@ class ManageStaffForm(FlaskForm):
     )
     submit_staff_action = SubmitField('Submit staff action')
 
-
 class AtLeastOneField(object):
-    def __init__(self, other_field_name, message=None):
+    def __init__(self, other_field_name):
         self.other_field_name = other_field_name
-        if not message:
-            message = f'At least one field must have data'
-        self.message = message
+        self.error_message = f'At least one field must have data'
 
     def __call__(self, form, field):
         try:
@@ -250,9 +247,9 @@ class AtLeastOneField(object):
         except KeyError:
             raise ValidationError(field.gettext("Invalid field name '%s'.") % self.other_field_name)
         if not field.data and not other_field.data:
-            field.errors.append(self.message)
+            field.errors.append(self.error_message)
             other_field.errors = []
-            other_field.errors.append(self.message)
+            other_field.errors.append(self.error_message)
             raise StopValidation()
 class MultiCheckboxField(SelectMultipleField):
     widget = ListWidget(prefix_label=False)
