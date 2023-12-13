@@ -1,13 +1,12 @@
 from json import load
-
+from flask import Markup
+from humanfriendly import format_timespan
 def get_nodes():
     with open('./static/json/nodes.json', 'r') as nodes_database:
         nodes = load(nodes_database)
         return nodes
 
-def handle_select_fields(form, nodes):
-    remove_stairs, allow_shortcuts = form.remove_stairs.data, form.allow_shortcuts.data
-    only_walkways, only_car_paths = form.only_walkways.data, form.only_car_paths.data
+def handle_select_fields(nodes, remove_stairs, allow_shortcuts, only_walkways, only_car_paths):
     for node in nodes.values():
         node['connected_nodes'] = [connected_node for connected_node in node['connected_nodes'] if not (
             (remove_stairs == 'yes' and connected_node['vertex_type'] == 'stairs') or
@@ -16,6 +15,33 @@ def handle_select_fields(form, nodes):
             (only_car_paths == 'yes' and connected_node['vertex_type'] == 'walkway')
         )]
     return nodes
+
+def get_shortest_path_details(
+        path,
+        distance,
+        starting_point,
+        destination,
+        remove_stairs,
+        allow_shortcuts,
+        only_walkways,
+        only_car_paths
+):
+    average_walking_speed = 1.30  # m/s
+    average_running_speed = 3.5  # m/s
+
+    details_dict = {}
+    details_dict['Path distance:'] = f"{distance} meters"
+    details_dict['Starting point:'] = starting_point
+    details_dict['Destination:'] = destination
+    details_dict["Calculation parameters:"] = Markup(
+        f"Remove stairs: {remove_stairs}<br>"
+        f"Allow shortcuts: {allow_shortcuts}<br>"
+        f"Only walkways:  {only_walkways}<br>"
+        f"Only car paths: {only_car_paths}<br>"
+    )
+    details_dict["Time to walk:"] = format_timespan(distance / average_walking_speed)
+    details_dict["Time to run:"] = format_timespan(distance / average_running_speed)
+    return details_dict
 
 def shortest_path_algorithm(nodes, starting_point, destination):
     frontier = [(0, starting_point)]

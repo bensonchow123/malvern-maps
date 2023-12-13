@@ -224,6 +224,34 @@
         </div>
     </div>
 </div>
+{% if shortest_path_details %}
+    <div class="modal fade shortest-path-details-modal" id="shortestPathDetailsModal" aria-hidden="true" aria-labelledby="shortestPathDetailsModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Shortest path details modal</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                        {% for key, value in shortest_path_details.items() %}
+                            <div class="row">
+                                <div class="col-6">{{ key }}</div>
+                                <div class="col-6">{{ value }}</div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div>
+                    <div class="modal-footer d-flex justify-content-start">
+                    The path is shown in the map!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
 {% if open_reported_node_modal %}
     <script>
         document.addEventListener('DOMContentLoaded', function(){

@@ -4,9 +4,9 @@ from threading import Thread
 from datetime import datetime
 from bson.objectid import ObjectId
 
-from flask import Blueprint, render_template, request, flash, session, g
+from flask import Blueprint, render_template, request, flash, session, g, Markup
 from forms import ShortestPathCalculationForm, ReportEventForm, ManageStaffForm, RemoveReportedEventForm, FilterEventsForm
-from shortest_path_calculation import get_nodes, handle_select_fields, shortest_path_algorithm
+from shortest_path_calculation import get_nodes, handle_select_fields, shortest_path_algorithm, get_shortest_path_details
 from pymongo import MongoClient
 from dotenv import load_dotenv
 load_dotenv()
@@ -91,6 +91,8 @@ def get_filtered_events(groups_to_filter, number_to_filter):
 @map.route('/', methods=['GET', 'POST'])
 def main_map_page():
     def handle_render(
+            shortest_path_details = None,
+            shortest_path_calculation_results = None,
             open_sidebar=False,
             open_reported_node_modal=False,
             open_report_event_modal=False,
@@ -106,6 +108,8 @@ def main_map_page():
 
         return render_template(
             'main_map_page.html',
+            shortest_path_details=shortest_path_details,
+            shortest_path_calculation_results=shortest_path_calculation_results,
             shortest_path_calculation_form=shortest_path_calculation_form,
             report_event_form=report_event_form,
             remove_reported_event_form=remove_reported_event_form,
@@ -129,25 +133,52 @@ def main_map_page():
     if request.method == "POST":
         if shortest_path_calculation_form.submit.data:
             if shortest_path_calculation_form.validate_on_submit():
-                starting_point = shortest_path_calculation_form.starting_point.data
-                destination= shortest_path_calculation_form.destination.data
+                form = shortest_path_calculation_form
+
+                starting_point = form.starting_point.data
+                destination= form.destination.data
+
+                remove_stairs, allow_shortcuts = form.remove_stairs.data, form.allow_shortcuts.data
+                only_walkways, only_car_paths = form.only_walkways.data, form.only_car_paths.data
+
                 nodes = get_nodes()
-                select_fields_filtered_nodes = handle_select_fields(shortest_path_calculation_form, nodes)
+                select_fields_filtered_nodes = handle_select_fields(
+                    nodes=nodes,
+                    remove_stairs=remove_stairs,
+                    allow_shortcuts=allow_shortcuts,
+                    only_walkways=only_walkways,
+                    only_car_paths=only_car_paths
+                )
                 path, distance = shortest_path_algorithm(
                     nodes=select_fields_filtered_nodes,
                     starting_point=starting_point,
                     destination=destination
                 )
+
                 if path is None:
                     return handle_render(
                         flash_category="danger",
                         flash_message_content="No path found!"
                     )
                 else:
+                    shortest_path_details = get_shortest_path_details(
+                        path=path,
+                        distance=distance,
+                        starting_point=starting_point,
+                        destination=destination,
+                        remove_stairs=remove_stairs,
+                        allow_shortcuts=allow_shortcuts,
+                        only_walkways=only_walkways,
+                        only_car_paths=only_car_paths
+                    )
                     return handle_render(
+                        shortest_path_details=shortest_path_details,
+                        shortest_path_calculation_results=path,
                         flash_category="success",
-                        flash_message_content=f'The shortest path from {starting_point} to {destination} is {path} with'
-                                              f' a distance of {distance}'
+                        flash_message_content=Markup(
+                            f'Shortest path is shown on map, it have a distance of {distance}! <br>'
+                            f'<a href="#" data-bs-toggle="modal" data-bs-target="#shortestPathDetailsModal">Click here for more details!</a>'
+                        )
                     )
             return handle_render(open_sidebar=True, open_report_event_modal=False)
 

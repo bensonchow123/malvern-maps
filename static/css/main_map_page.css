@@ -71,3 +71,6 @@
 ul {
     list-style-type: none;
 }
+.shortest-path-details-modal {
+    z-index: 1080;
+}
