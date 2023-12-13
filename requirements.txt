@@ -1,5 +1,6 @@
 bcrypt==4.0.1
 blinker==1.6.2
+cachelib==0.9.0
 click==8.1.6
 colorama==0.4.6
 Deprecated==1.2.14
@@ -11,6 +12,7 @@ Flask-Limiter==3.5.0
 Flask-Mail==0.9.1
 Flask-WTF==1.1.1
 gunicorn==21.2.0
+humanfriendly==10.0
 idna==3.4
 importlib-resources==6.0.1
 itsdangerous==2.1.2
@@ -23,6 +25,7 @@ ordered-set==4.1.0
 packaging==23.1
 Pygments==2.16.1
 pymongo==4.5.0
+pyreadline3==3.4.1
 python-dotenv==1.0.0
 rich==13.5.2
 typing_extensions==4.7.1
