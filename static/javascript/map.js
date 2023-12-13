@@ -85,7 +85,7 @@ fetch('/static/json/nodes.json')
                 // All other points - Yellow icon
                 marker = L.marker(coordinates, {icon: yellowIcon});
             }
-            marker.bindPopup(node).openPopup();
+            marker.bindPopup('<div class="text-center">' + node + '</div>').openPopup();
             marker.addTo(map);
             });
         }
@@ -104,7 +104,7 @@ fetch('/static/json/nodes.json')
                             break;
                     }
                     let marker = L.marker(coordinates, {icon: icon});
-                    marker.bindPopup(key);
+                    marker.bindPopup('<div class="text-center">' + key + '</div>');
                     marker.addTo(map);
                 }
             }
