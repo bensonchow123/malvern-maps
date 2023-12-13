@@ -1,17 +1,36 @@
 {
-    "A":{"connected_nodes": [
-        {"name":"B", "distance":1,"vertex_type":"stairs"}
-    ], "image_url": "url"},
-    "B":{"connected_nodes": [
-        {"name":"A", "distance":1,"vertex_type":"stairs"},
-        {"name":"C", "distance":1,"vertex_type":"walkway"}
-    ], "image_url": "url"},
-
-    "C":{"connected_nodes": [
-        {"name":"B", "distance":1,"vertex_type":"walkway"},
-        {"name":"D", "distance":1,"vertex_type":"car_path"}
-    ], "image_url": "url"},
-    "D":{"connected_nodes": [
-        {"name":"C", "distance":1,"vertex_type":"car_path"}
-    ], "image_url": "url"}
+    "A":{
+        "connected_nodes": [
+            {"name":"B", "distance":1,"vertex_type":"stairs"}
+        ],
+        "image_url": "url",
+        "cords_on_map": [500, 1010],
+        "icon_colour": "blue"
+    },
+    "B":{
+        "connected_nodes": [
+            {"name":"A", "distance":1,"vertex_type":"stairs"},
+            {"name":"C", "distance":1,"vertex_type":"walkway"}
+        ],
+        "image_url": "url",
+        "cords_on_map": [500, 1020],
+        "icon_colour": "grey"
+    },
+    "C":{
+        "connected_nodes": [
+            {"name":"B", "distance":1,"vertex_type":"walkway"},
+            {"name":"D", "distance":1,"vertex_type":"car_path"}
+        ],
+        "image_url": "url",
+        "cords_on_map": [500, 1030],
+        "icon_colour": "grey"
+    },
+    "D":{
+        "connected_nodes": [
+            {"name":"C", "distance":1,"vertex_type":"car_path"}
+        ],
+        "image_url": "url",
+        "cords_on_map": [500, 1040],
+        "icon_colour": "blue"
+    }
 }

@@ -141,10 +141,14 @@
             </p>
         </div>
     </div>
-    {% include 'report_system_modals.html' %}
+    {% include 'modals.html' %}
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
             integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
             crossorigin="">
+    </script>
+    <script type="text/javascript">
+        // declare as global variable
+        var shortestPathCalculationResults = JSON.parse('{{ shortest_path_calculation_results|tojson|safe }}');
     </script>
     <script src="./static/javascript/map.js"></script>
     <script src="./static/javascript/toggle_sidebar_activation_button.js"></script>
