@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% block head %}
+{% endblock %}
+
+{% block body %}
+<div class="d-flex justify-content-end">
+    <a href="{{ url_for('map.main_map_page')}}" class="btn btn-primary btn-lg rounded-0">Return to map</a>
+</div>
+<div class="container my-5">
+    <h2 class="text-center mb-4 text-primary">Thanks for visiting Malvern Maps!</h2>
+    <p class="lead text-center">"The map to end all Malvern College maps, if there is even any" - B Chow</p>
+</div>
+
+<div class="container my-5">
+    <h2 class="text-center mb-4 text-success">About this project</h2>
+    <h6 class="text-center">Website’s origin story?</h6>
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10 mb-4">
+            <p class="text-center">
+                Since the beginning of time, people have always tried to find the fastest way from point A to point B.
+            </p>
+            <p class="text-center">
+                Ivan Mezhibovskiy (H1) and I were no different, debating almost every other day, on which route was faster to the science building - the one next to house 8 or the one by the memorial library?
+            </p>
+            <p class="text-center">
+                This sparked a lightbulb moment! I decided to embark on a mission of utmost importance, a project that would shake the very foundations of our daily commute - to conclusively determine which path, in all its glory, is the fastest route to any destination within the campus.
+            </p>
+        </div>
+    </div>
+    <h6 class="text-center">The Nitty-Gritty of interactive map shenanigans</h6>
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10 mb-4">
+            <p class="text-center">
+                Python Flask is used as the web framework for this project, with the map being rendered using Leaflet.js.
+            </p>
+            <p class="text-center">
+                Node data is stored in a static JSON file, while staff and reported node data is stored on a secure MongoDB database.
+            </p>
+            <p class="text-center">
+                The shortest path algorithm is implemented using Dijkstra's algorithm, on the node data.
+            </p>
+            <p class="text-center">
+                As this is my A level Computer Science project, the full development report is accessible by pressing the link below!
+            </p>
+        </div>
+        <div class="text-center">
+            <a href="https://malverncollege-my.sharepoint.com/:w:/g/personal/chow_cheukhim_malverncollege_org_uk/EWjeJfiwB2BGn3w-YhzZ1PoBSzt_kLDJ3lmhNxTR7Jq1Tw?e=lLa53Q">
+                Click here for the report!
+            </a>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="footer bg-light text-center text-lg-start">
+  <!-- Text -->
+    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+    © 2022 - present Benson Chow
+    </div>
+</footer>
+{% endblock %}
