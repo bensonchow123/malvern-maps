@@ -28,6 +28,10 @@ def datetimeformat(value):
 def ratelimit_handler(e):
     return render_template("rate_limited.html", rate_limit_exceeded=e.description), 429
 
+@app.route("/about")
+def about():
+    return render_template("about.html")
+
 app.config['SECRET_KEY'] = getenv("FLASKSECRETKEY")
 
 app.register_blueprint(map)
