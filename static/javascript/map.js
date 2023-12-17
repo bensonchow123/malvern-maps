@@ -20,10 +20,10 @@ const redIcon = new L.Icon({
         "./static/images/leaflet-icon-red.png",
     shadowUrl:
         "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41]
+    iconSize: [22.5, 36.9],
+    iconAnchor: [10.8, 36.9],
+    popupAnchor: [0.9, -30.6],
+    shadowSize: [36.9, 36.9]
 });
 
 const greenIcon = new L.Icon({
@@ -31,10 +31,10 @@ const greenIcon = new L.Icon({
         "./static/images/leaflet-icon-green.png",
     shadowUrl:
         "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41]
+    iconSize: [22.5, 36.9],
+    iconAnchor: [10.8, 36.9],
+    popupAnchor: [0.9, -30.6],
+    shadowSize: [36.9, 36.9]
 });
 
 const yellowIcon = new L.Icon({
@@ -42,36 +42,36 @@ const yellowIcon = new L.Icon({
         "./static/images/leaflet-icon-yellow.png",
     shadowUrl:
         "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41]
+    iconSize: [22.5, 36.9],
+    iconAnchor: [10.8, 36.9],
+    popupAnchor: [0.9, -30.6],
+    shadowSize: [36.9, 36.9]
 });
 const greyIcon = new L.Icon({
     iconUrl:
         "./static/images/leaflet-icon-grey.png",
     shadowUrl:
         "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41]
+    iconSize: [15, 24.6],
+    iconAnchor: [7.2, 24.6],
+    popupAnchor: [0.6, -20.4],
+    shadowSize: [24.6, 24.6]
 });
 const blueIcon = new L.Icon({
     iconUrl:
         "./static/images/leaflet-icon-blue.png",
     shadowUrl:
         "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
-    iconSize: [25, 41],
-    iconAnchor: [12, 41],
-    popupAnchor: [1, -34],
-    shadowSize: [41, 41]
+    iconSize: [22.5, 36.9],
+    iconAnchor: [10.8, 36.9],
+    popupAnchor: [0.9, -30.6],
+    shadowSize: [36.9, 36.9]
 });
 
 fetch('/static/json/nodes.json')
     .then((response) => response.json())
     .then((nodesDb) => {
-        if (shortestPathCalculationResults) {
+        if (shortestPathCalculationResults) { // render only the shortest path
             shortestPathCalculationResults.forEach((node, index) => {
             let coordinates = nodesDb[node].cords_on_map;
             let marker;
@@ -89,13 +89,13 @@ fetch('/static/json/nodes.json')
             marker.addTo(map);
             });
         }
-        else {
+        else { // render every node
             for (let key in nodesDb) {
                 let node = nodesDb[key];
                 let coordinates = node.cords_on_map;
                 if (coordinates.length > 0) {
                     let icon;
-                    switch(node.icon_colour) {
+                    switch(node.starting_icon_colour) {
                         case 'grey':
                             icon = greyIcon;
                             break;
@@ -121,5 +121,6 @@ map.on('click', function(e) {
     var coord = e.latlng;
     var lat = coord.lat;
     var lng = coord.lng;
-    console.log("You clicked the map at latitude: " + lat + " and longitude: " + lng);
+    console.log("[" + Math.round(lat * 10) / 10 + ", " + Math.round(lng * 10) / 10 + "]")
 });
+
