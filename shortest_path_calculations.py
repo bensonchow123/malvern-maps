@@ -17,7 +17,6 @@ def handle_select_fields(nodes, remove_stairs, allow_shortcuts, only_walkways, o
     return nodes
 
 def get_shortest_path_details(
-        path,
         distance,
         starting_point,
         destination,
@@ -28,19 +27,22 @@ def get_shortest_path_details(
 ):
     average_walking_speed = 1.30  # m/s
     average_running_speed = 3.5  # m/s
+    average_calories_per_meter_walking = 0.064  # cal/m
+    average_calories_per_meter_running = 0.078  # cal/m
 
     details_dict = {}
-    details_dict['Path distance:'] = f"{distance} meters"
-    details_dict['Starting point:'] = starting_point
-    details_dict['Destination:'] = destination
+    details_dict["Path distance:"] = f"{distance} meters"
+    details_dict["Avg time to walk (1.3m/s):"] = format_timespan(distance / average_walking_speed)
+    details_dict["Avg time to run (3.5m/s):"] = format_timespan(distance / average_running_speed)
+    details_dict["Avg calories burned walking:"] = f"{round(distance * average_calories_per_meter_walking, 2)} cal"
+    details_dict["Avg calories burned running:"] = f"{round(distance * average_calories_per_meter_running, 2)} cal"
+    details_dict["Route:"] = f"{starting_point} -> {destination}"
     details_dict["Calculation parameters:"] = Markup(
         f"Remove stairs: {remove_stairs}<br>"
         f"Allow shortcuts: {allow_shortcuts}<br>"
         f"Only walkways:  {only_walkways}<br>"
         f"Only car paths: {only_car_paths}<br>"
     )
-    details_dict["Time to walk:"] = format_timespan(distance / average_walking_speed)
-    details_dict["Time to run:"] = format_timespan(distance / average_running_speed)
     return details_dict
 
 def shortest_path_algorithm(nodes, starting_point, destination):

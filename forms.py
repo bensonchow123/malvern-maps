@@ -7,7 +7,7 @@ from wtforms import StringField, SubmitField, SelectField, PasswordField, TextAr
 from wtforms.validators import DataRequired, ValidationError, Email, EqualTo, StopValidation, Length, NumberRange, Optional
 from wtforms.widgets import ListWidget, CheckboxInput
 from flask_wtf import FlaskForm
-from shortest_path_calculation import get_nodes
+from shortest_path_calculations import get_nodes
 from pymongo import MongoClient
 from dotenv import load_dotenv
 from flask_bcrypt import check_password_hash

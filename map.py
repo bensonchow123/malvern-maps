@@ -6,7 +6,7 @@ from bson.objectid import ObjectId
 
 from flask import Blueprint, render_template, request, flash, session, g, Markup
 from forms import ShortestPathCalculationForm, ReportEventForm, ManageStaffForm, RemoveReportedEventForm, FilterEventsForm
-from shortest_path_calculation import get_nodes, handle_select_fields, shortest_path_algorithm, get_shortest_path_details
+from shortest_path_calculations import get_nodes, handle_select_fields, shortest_path_algorithm, get_shortest_path_details
 from pymongo import MongoClient
 from dotenv import load_dotenv
 load_dotenv()
@@ -162,7 +162,6 @@ def main_map_page():
                     )
                 else:
                     shortest_path_details = get_shortest_path_details(
-                        path=path,
                         distance=distance,
                         starting_point=starting_point,
                         destination=destination,
