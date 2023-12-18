@@ -22,7 +22,7 @@ def is_valid_node(form, field):
     nodes = get_nodes()
     name_of_nodes = list(nodes.keys())
 
-    if node_data not in name_of_nodes:
+    if node_data.casefold() not in name_of_nodes:
         raise ValidationError("Invalid node!")
 
 class OnlyOneYes:

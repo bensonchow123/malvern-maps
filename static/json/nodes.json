@@ -20,13 +20,13 @@
     "c3":{
         "connected_nodes": [
             {"name":"c2", "distance":73,"vertex_type":"car_path"},
-            {"name":"w5", "distance":164,"vertex_type":"walkway"},
+            {"name":"w5", "distance":37,"vertex_type":"walkway"},
             {"name":"c4", "distance":97,"vertex_type":"car_path"}
         ],
         "cords_on_map": [1761.3, 1166.4],
         "starting_icon_colour": "grey"
     },
-    "C4": {
+    "c4": {
         "connected_nodes": [
             {"name": "c3", "distance": 97, "vertex_type": "car_path"},
             {"name": "cw4", "distance": 16, "vertex_type": "car_path"},
@@ -127,7 +127,7 @@
             {"name": "cw25", "distance": 173, "vertex_type": "car_path"}
         ],
         "cords_on_map": [387.6, 720.7],
-        "starting_icon_colour": "blue"
+        "starting_icon_colour": "grey"
     },
     "cw25": {
         "connected_nodes": [
@@ -547,7 +547,7 @@
     "w80": {
         "connected_nodes": [
             {"name": "w7", "distance": 3, "vertex_type": "walkway"},
-            {"name": "cw2", "distance": 14, "vertex_type": "walkway"},
+            {"name": "sw2", "distance": 14, "vertex_type": "walkway"},
             {"name": "cw10", "distance": 35, "vertex_type": "walkway"}
         ],
         "cords_on_map": [1679.3, 731.8],
@@ -649,6 +649,921 @@
             {"name": "sw3", "distance": 15, "vertex_type": "stairs"}
         ],
         "cords_on_map": [1645.1, 864.3],
+        "starting_icon_colour": "blue"
+    },
+    "c22": {
+        "connected_nodes": [
+            {"name": "c20", "distance": 3, "vertex_type": "car_path"},
+            {"name": "cs6", "distance": 23, "vertex_type": "car_path"},
+            {"name": "cs3", "distance": 31, "vertex_type": "car_path"}
+        ],
+        "cords_on_map": [1603.7, 888.8],
+        "starting_icon_colour": "grey"
+    },
+    "c20": {
+        "connected_nodes": [
+            {"name": "c22", "distance": 3, "vertex_type": "car_path"}
+        ],
+        "cords_on_map": [1615.6, 888.2],
+        "starting_icon_colour": "blue"
+    },
+    "cs6": {
+        "connected_nodes": [
+            {"name": "w79", "distance": 47, "vertex_type": "walkway"},
+            {"name": "c22", "distance": 23, "vertex_type": "car_path"},
+            {"name": "w27", "distance": 18, "vertex_type": "car_path"}
+        ],
+        "cords_on_map": [1601.1, 937.6],
+        "starting_icon_colour": "grey"
+    },
+    "w27": {
+        "connected_nodes": [
+            {"name": "w12", "distance": 89, "vertex_type": "walkway"},
+            {"name": "cs6", "distance": 18, "vertex_type": "car_path"}
+        ],
+        "cords_on_map": [1593, 971.9],
+        "starting_icon_colour": "blue"
+    },
+    "w12": {
+        "connected_nodes": [
+            {"name": "w27", "distance": 89, "vertex_type": "walkway"},
+            {"name": "w5", "distance": 34, "vertex_type": "walkway"},
+            {"name": "w13", "distance": 9, "vertex_type": "walkway"},
+            {"name": "cw13", "distance": 60, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1614.1, 1132.5],
+        "starting_icon_colour": "grey"
+    },
+    "w5": {
+        "connected_nodes": [
+            {"name": "w12", "distance": 34, "vertex_type": "walkway"},
+            {"name": "c3", "distance": 37, "vertex_type": "walkway"},
+            {"name": "w4", "distance": 6, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1704.1, 1157.7],
+        "starting_icon_colour": "grey"
+    },
+    "w4": {
+        "connected_nodes": [
+            {"name": "w5", "distance": 6, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1704.2, 1144.6],
+        "starting_icon_colour": "blue"
+    },
+    "w13": {
+        "connected_nodes": [
+            {"name": "w35", "distance": 32, "vertex_type": "walkway"},
+            {"name": "w12", "distance": 9, "vertex_type": "walkway"},
+            {"name": "w14", "distance": 42, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1613.4, 1150.5],
+        "starting_icon_colour": "grey"
+    },
+    "w35": {
+        "connected_nodes": [
+            {"name": "w13", "distance": 32, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1552.9, 1165.1],
+        "starting_icon_colour": "blue"
+    },
+    "w14": {
+        "connected_nodes": [
+            {"name": "w15", "distance": 16, "vertex_type": "walkway"},
+            {"name": "w9", "distance": 13, "vertex_type": "walkway"},
+            {"name": "w13", "distance": 42, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1607.3, 1239.6],
+        "starting_icon_colour": "grey"
+    },
+    "w9": {
+        "connected_nodes": [
+            {"name": "w14", "distance": 13, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1623.3, 1256.8],
+        "starting_icon_colour": "blue"
+    },
+    "w15": {
+        "connected_nodes": [
+            {"name": "w14", "distance": 16, "vertex_type": "walkway"},
+            {"name": "w16", "distance": 25, "vertex_type": "walkway"},
+            {"name": "w81", "distance": 33, "vertex_type": "walkway"},
+            {"name": "w82", "distance": 53, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1596.6, 1254.6],
+        "starting_icon_colour": "grey"
+    },
+    "w16": {
+        "connected_nodes": [
+            {"name": "w15", "distance": 25, "vertex_type": "walkway"},
+            {"name": "sw4", "distance": 5, "vertex_type": "walkway"},
+            {"name": "w28", "distance": 11, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1590.4, 1315.4],
+        "starting_icon_colour": "grey"
+    },
+    "sw4": {
+        "connected_nodes": [
+            {"name": "w10", "distance": 4, "vertex_type": "walkway"},
+            {"name": "w16", "distance": 5, "vertex_type": "walkway"},
+            {"name": "cw6", "distance": 23, "vertex_type": "stairs"}
+        ],
+        "cords_on_map": [1611.8, 1319.1],
+        "starting_icon_colour": "grey"
+    },
+    "w10": {
+        "connected_nodes": [
+            {"name": "sw4", "distance": 4, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1611.9, 1327.9],
+        "starting_icon_colour": "blue"
+    },
+    "cw6": {
+        "connected_nodes": [
+            {"name": "c9", "distance": 7, "vertex_type": "car_path"},
+            {"name": "c10", "distance": 8, "vertex_type": "car_path"},
+            {"name": "sw4", "distance": 23, "vertex_type": "stairs"}
+        ],
+        "cords_on_map": [1653.9, 1328.3],
+        "starting_icon_colour": "grey"
+    },
+    "c9": {
+        "connected_nodes": [
+            {"name": "cw6", "distance": 7, "vertex_type": "car_path"}
+        ],
+        "cords_on_map": [1654.6, 1316.6],
+        "starting_icon_colour": "blue"
+    },
+    "c10": {
+        "connected_nodes": [
+            {"name": "c12", "distance": 3, "vertex_type": "car_path"},
+            {"name": "cw6", "distance": 8, "vertex_type": "car_path"},
+            {"name": "c11", "distance": 5, "vertex_type": "car_path"}
+        ],
+        "cords_on_map": [1653.3, 1343.2],
+        "starting_icon_colour": "grey"
+    },
+    "c12": {
+        "connected_nodes": [
+            {"name": "c10", "distance": 3, "vertex_type": "car_path"}
+        ],
+        "cords_on_map": [1639.3, 1343],
+        "starting_icon_colour": "blue"
+    },
+    "c11": {
+        "connected_nodes": [
+            {"name": "cw5", "distance": 13, "vertex_type": "car_path"},
+            {"name": "cs1", "distance": 25, "vertex_type": "car_path"},
+            {"name": "c10", "distance": 5, "vertex_type": "car_path"}
+        ],
+        "cords_on_map": [1653.7, 1362.4],
+        "starting_icon_colour": "grey"
+    },
+    "cw5": {
+        "connected_nodes": [
+            {"name": "c11", "distance": 13, "vertex_type": "car_path"},
+            {"name": "sw1", "distance": 25, "vertex_type": "walkway"},
+            {"name": "cw4", "distance": 19, "vertex_type": "car_path"}
+        ],
+        "cords_on_map": [1669.3, 1366.5],
+        "starting_icon_colour": "grey"
+    },
+    "cw4": {
+        "connected_nodes": [
+            {"name": "c4", "distance": 16, "vertex_type": "car_path"},
+            {"name": "w3", "distance": 17, "vertex_type": "walkway"},
+            {"name": "cw5", "distance": 19, "vertex_type": "car_path"}
+        ],
+        "cords_on_map": [1704.9, 1367.3],
+        "starting_icon_colour": "grey"
+    },
+    "w3": {
+        "connected_nodes": [
+            {"name": "cw4", "distance": 17, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1699, 1402.4],
+        "starting_icon_colour": "blue"
+    },
+    "sw1": {
+        "connected_nodes": [
+            {"name": "cs1", "distance": 10, "vertex_type": "stairs"},
+            {"name": "cw5", "distance": 25, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1667, 1418.7],
+        "starting_icon_colour": "blue"
+    },
+    "cs1": {
+        "connected_nodes": [
+            {"name": "sw1", "distance": 10, "vertex_type": "stairs"},
+            {"name": "c11", "distance": 25, "vertex_type": "car_path"},
+            {"name": "c17", "distance": 35, "vertex_type": "car_path"}
+        ],
+        "cords_on_map": [1645.3, 1412.1],
+        "starting_icon_colour": "grey"
+    },
+    "c17": {
+        "connected_nodes": [
+            {"name": "w45", "distance": 52, "vertex_type": "car_path"},
+            {"name": "c15", "distance": 26, "vertex_type": "car_path"},
+            {"name": "cs1", "distance": 35, "vertex_type": "car_path"}
+        ],
+        "cords_on_map": [1561.6, 1389.5],
+        "starting_icon_colour": "grey"
+    },
+    "w45": {
+        "connected_nodes": [
+            {"name": "c17", "distance": 52, "vertex_type": "car_path"},
+            {"name": "w41", "distance": 9, "vertex_type": "walkway"},
+            {"name": "w44", "distance": 40, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1492, 1329.4],
+        "starting_icon_colour": "grey"
+    },
+    "w41": {
+        "connected_nodes": [
+            {"name": "w42", "distance": 3, "vertex_type": "walkway"},
+            {"name": "w45", "distance": 9, "vertex_type": "walkway"},
+            {"name": "w36", "distance": 14, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1505.1, 1322],
+        "starting_icon_colour": "grey"
+    },
+    "w42": {
+        "connected_nodes": [
+            {"name": "w41", "distance": 3, "vertex_type": "car_path"}
+        ],
+        "cords_on_map": [1504.9, 1329],
+        "starting_icon_colour": "blue"
+    },
+    "w36": {
+        "connected_nodes": [
+            {"name": "w81", "distance": 11, "vertex_type": "walkway"},
+            {"name": "w37", "distance": 3, "vertex_type": "walkway"},
+            {"name": "w41", "distance": 14, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1531.2, 1322.4],
+        "starting_icon_colour": "grey"
+    },
+    "w37": {
+        "connected_nodes": [
+            {"name": "w36", "distance": 3, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1531.5, 1333.6],
+        "starting_icon_colour": "blue"
+    },
+    "w81": {
+        "connected_nodes": [
+            {"name": "w36", "distance": 11, "vertex_type": "walkway"},
+            {"name": "w15", "distance": 33, "vertex_type": "walkway"},
+            {"name": "w28", "distance": 4, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1557.9, 1321.2],
+        "starting_icon_colour": "grey"
+    },
+    "w28": {
+        "connected_nodes": [
+            {"name": "w16", "distance": 11, "vertex_type": "walkway"},
+            {"name": "w29", "distance": 3, "vertex_type": "walkway"},
+            {"name": "w81", "distance": 4, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1566.2, 1328.1],
+        "starting_icon_colour": "grey"
+    },
+    "w29": {
+        "connected_nodes": [
+            {"name": "w28", "distance": 3, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1566.4, 1337.3],
+        "starting_icon_colour": "blue"
+    },
+    "w44": {
+        "connected_nodes": [
+            {"name": "w82", "distance": 9, "vertex_type": "walkway"},
+            {"name": "sw7", "distance": 11, "vertex_type": "walkway"},
+            {"name": "w45", "distance": 40, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1489, 1255.3],
+        "starting_icon_colour": "grey"
+    },
+    "sw7": {
+        "connected_nodes": [
+            {"name": "w82", "distance": 9, "vertex_type": "walkway"},
+            {"name": "w44", "distance": 11, "vertex_type": "walkway"},
+            {"name": "cs5", "distance": 40, "vertex_type": "stairs"}
+        ],
+        "cords_on_map": [1470.3, 1237.5],
+        "starting_icon_colour": "grey"
+    },
+    "w82": {
+        "connected_nodes": [
+            {"name": "sw7", "distance": 9, "vertex_type": "walkway"},
+            {"name": "cs4", "distance": 42, "vertex_type": "stairs"},
+            {"name": "w44", "distance": 9, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1486.4, 1228.9],
+        "starting_icon_colour": "grey"
+    },
+    "cs4": {
+        "connected_nodes": [
+            {"name": "cw13", "distance": 16, "vertex_type": "car_path"},
+            {"name": "w82", "distance": 42, "vertex_type": "stairs"},
+            {"name": "cs5", "distance": 48, "vertex_type": "car_path"}
+        ],
+        "cords_on_map": [1475.7, 1130.4],
+        "starting_icon_colour": "grey"
+    },
+    "cs5": {
+        "connected_nodes": [
+            {"name": "sw7", "distance": 40, "vertex_type": "stairs"},
+            {"name": "c25", "distance": 23, "vertex_type": "car_path"},
+            {"name": "cs4", "distance": 48, "vertex_type": "car_path"},
+            {"name": "c23", "distance": 20, "vertex_type": "car_path"}
+        ],
+        "cords_on_map": [1398, 1206.9],
+        "starting_icon_colour": "grey"
+    },
+    "c23": {
+        "connected_nodes": [
+            {"name": "cs5", "distance": 20, "vertex_type": "car_path"}
+        ],
+        "cords_on_map": [1382.4, 1168.7],
+        "starting_icon_colour": "blue"
+    },
+    "c25": {
+        "connected_nodes": [
+            {"name": "c24", "distance": 17, "vertex_type": "car_path"},
+            {"name": "cs5", "distance": 23, "vertex_type": "car_path"},
+            {"name": "c33", "distance": 45, "vertex_type": "car_path"}
+        ],
+        "cords_on_map": [1338.6, 1238.1],
+        "starting_icon_colour": "grey"
+    },
+    "c24": {
+        "connected_nodes": [
+            {"name": "c25", "distance": 17, "vertex_type": "car_path"}
+        ],
+        "cords_on_map": [1333.3, 1207.2],
+        "starting_icon_colour": "blue"
+    },
+    "c33": {
+        "connected_nodes": [
+            {"name": "cw20", "distance": 17, "vertex_type": "car_path"},
+            {"name": "cw19", "distance": 20, "vertex_type": "car_path"},
+            {"name": "c25", "distance": 45, "vertex_type": "car_path"}
+        ],
+        "cords_on_map": [1249.4, 1286.9],
+        "starting_icon_colour": "grey"
+    },
+    "cw19": {
+        "connected_nodes": [
+            {"name": "c33", "distance": 20, "vertex_type": "car_path"},
+            {"name": "w61", "distance": 19, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1266.6, 1247.7],
+        "starting_icon_colour": "blue"
+    },
+    "w61": {
+        "connected_nodes": [
+            {"name": "cw19", "distance": 19, "vertex_type": "walkway"},
+            {"name": "w62", "distance": 12, "vertex_type": "walkway"},
+            {"name": "hw4", "distance": 45, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1274.1, 1196.5],
+        "starting_icon_colour": "grey"
+    },
+    "w62": {
+        "connected_nodes": [
+            {"name": "w61", "distance": 19, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1274.1, 1196.5],
+        "starting_icon_colour": "blue"
+    },
+    "hw4": {
+        "connected_nodes": [
+            {"name": "hw2", "distance": 61, "vertex_type": "walkway"},
+            {"name": "w83", "distance": 78, "vertex_type": "walkway"},
+            {"name": "w61", "distance": 45, "vertex_type": "walkway"},
+            {"name": "hs1", "distance": 150, "vertex_type": "shortcut"}
+        ],
+        "cords_on_map": [1263.5, 1107.1],
+        "starting_icon_colour": "grey"
+    },
+    "hw2": {
+        "connected_nodes": [
+            {"name": "hw4", "distance": 61, "vertex_type": "walkway"},
+            {"name": "hw3", "distance": 33, "vertex_type": "walkway"},
+            {"name": "hw1", "distance": 26, "vertex_type": "shortcut"},
+            {"name": "w58", "distance": 31, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1369.7, 1043.8],
+        "starting_icon_colour": "grey"
+    },
+    "hw3": {
+        "connected_nodes": [
+            {"name": "hw2", "distance": 33, "vertex_type": "walkway"},
+            {"name": "hw1", "distance": 43, "vertex_type": "shortcut"}
+        ],
+        "cords_on_map": [1361.9, 1109.7],
+        "starting_icon_colour": "blue"
+    },
+    "hw1": {
+        "connected_nodes": [
+            {"name": "w58", "distance": 31, "vertex_type": "shortcut"},
+            {"name": "w49", "distance": 3, "vertex_type": "walkway"},
+            {"name": "hw2", "distance": 26, "vertex_type": "shortcut"},
+            {"name": "hw3", "distance": 43, "vertex_type": "shortcut"}
+        ],
+        "cords_on_map": [1443.3, 1051.5],
+        "starting_icon_colour": "blue"
+    },
+    "w49": {
+        "connected_nodes": [
+            {"name": "hw1", "distance": 3, "vertex_type": "walkway"},
+            {"name": "w48", "distance": 5, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1459.5, 1052.4],
+        "starting_icon_colour": "blue"
+    },
+    "w48": {
+        "connected_nodes": [
+            {"name": "cw12", "distance": 14, "vertex_type": "walkway"},
+            {"name": "w49", "distance": 5, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1474, 1052.5],
+        "starting_icon_colour": "blue"
+    },
+    "cw12": {
+        "connected_nodes": [
+            {"name": "w48", "distance": 14, "vertex_type": "walkway"},
+            {"name": "w43", "distance": 47, "vertex_type": "walkway"},
+            {"name": "cw13", "distance": 32, "vertex_type": "car_path"}
+        ],
+        "cords_on_map": [1487.6, 1053.7],
+        "starting_icon_colour": "blue"
+    },
+    "cw13": {
+        "connected_nodes": [
+            {"name": "w12", "distance": 60, "vertex_type": "walkway"},
+            {"name": "cs4", "distance": 16, "vertex_type": "car_path"},
+            {"name": "cw12", "distance": 32, "vertex_type": "car_path"}
+        ],
+        "cords_on_map": [1482.7, 1113.2],
+        "starting_icon_colour": "grey"
+    },
+    "w47": {
+        "connected_nodes": [
+            {"name": "w43", "distance": 12, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1468.7, 964],
+        "starting_icon_colour": "blue"
+    },
+    "w43": {
+        "connected_nodes": [
+            {"name": "w47", "distance": 12, "vertex_type": "walkway"},
+            {"name": "cw12", "distance": 47, "vertex_type": "walkway"},
+            {"name": "w79", "distance": 12, "vertex_type": "walkway"},
+            {"name": "w52", "distance": 13, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1478.8, 948.4],
+        "starting_icon_colour": "grey"
+    },
+    "w52": {
+        "connected_nodes": [
+            {"name": "w51", "distance": 132, "vertex_type": "walkway"},
+            {"name": "w56", "distance": 15, "vertex_type": "walkway"},
+            {"name": "w43", "distance": 13, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1453.3, 946.8],
+        "starting_icon_colour": "grey"
+    },
+    "w56": {
+        "connected_nodes": [
+            {"name": "w53", "distance": 3, "vertex_type": "walkway"},
+            {"name": "w52", "distance": 15, "vertex_type": "walkway"},
+            {"name": "w57", "distance": 6, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1430.5, 961.3],
+        "starting_icon_colour": "grey"
+    },
+    "w53": {
+        "connected_nodes": [
+            {"name": "w56", "distance": 3, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1437.7, 967.2],
+        "starting_icon_colour": "blue"
+    },
+    "w57": {
+        "connected_nodes": [
+            {"name": "w58", "distance": 9, "vertex_type": "walkway"},
+            {"name": "w54", "distance": 3, "vertex_type": "walkway"},
+            {"name": "w56", "distance": 6, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1419.5, 972.2],
+        "starting_icon_colour": "grey"
+    },
+    "w54": {
+        "connected_nodes": [
+            {"name": "w57", "distance": 3, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1428.5, 979],
+        "starting_icon_colour": "blue"
+    },
+    "w58": {
+        "connected_nodes": [
+            {"name": "w57", "distance": 9, "vertex_type": "walkway"},
+            {"name": "w55", "distance": 6, "vertex_type": "walkway"},
+            {"name": "hw1", "distance": 31, "vertex_type": "shortcut"},
+            {"name": "hw2", "distance": 31, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1411, 984],
+        "starting_icon_colour": "grey"
+    },
+    "w55": {
+        "connected_nodes": [
+            {"name": "w58", "distance": 6, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1429.5, 995.7],
+        "starting_icon_colour": "blue"
+    },
+    "w79": {
+        "connected_nodes": [
+            {"name": "w43", "distance": 12, "vertex_type": "walkway"},
+            {"name": "cs6", "distance": 47, "vertex_type": "walkway"},
+            {"name": "hsw1", "distance": 65, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1494.4, 929.5],
+        "starting_icon_colour": "grey"
+    },
+    "hsw1": {
+        "connected_nodes": [
+            {"name": "cs3", "distance": 18, "vertex_type": "stairs"},
+            {"name": "chw2", "distance": 63, "vertex_type": "shortcut"},
+            {"name": "w51", "distance": 107, "vertex_type": "walkway"},
+            {"name": "w79", "distance": 65, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1578.8, 818.2],
+        "starting_icon_colour": "grey"
+    },
+    "w51": {
+        "connected_nodes": [
+            {"name": "cw14", "distance": 33, "vertex_type": "walkway"},
+            {"name": "cw15", "distance": 34, "vertex_type": "walkway"},
+            {"name": "cw18", "distance": 47, "vertex_type": "walkway"},
+            {"name": "hsw1", "distance": 107, "vertex_type": "walkway"},
+            {"name": "w52", "distance": 132, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1414, 663.9],
+        "starting_icon_colour": "grey"
+    },
+    "cw14": {
+        "connected_nodes": [
+            {"name": "w51", "distance": 33, "vertex_type": "walkway"},
+            {"name": "chw2", "distance": 70, "vertex_type": "car_path"},
+            {"name": "cw15", "distance": 27, "vertex_type": "car_path"}
+        ],
+        "cords_on_map": [1454.4, 602.5],
+        "starting_icon_colour": "grey"
+    },
+    "cw15": {
+        "connected_nodes": [
+            {"name": "w51", "distance": 34, "vertex_type": "walkway"},
+            {"name": "cw18", "distance": 29, "vertex_type": "car_path"},
+            {"name": "cw14", "distance": 27, "vertex_type": "car_path"}
+        ],
+        "cords_on_map": [1394.1, 589.1],
+        "starting_icon_colour": "grey"
+    },
+    "cw18": {
+        "connected_nodes": [
+            {"name": "w51", "distance": 47, "vertex_type": "walkway"},
+            {"name": "c29", "distance": 9, "vertex_type": "car_path"},
+            {"name": "cw15", "distance": 29, "vertex_type": "car_path"},
+            {"name": "c28", "distance": 55, "vertex_type": "car_path"}
+        ],
+        "cords_on_map": [1343.5, 594.8],
+        "starting_icon_colour": "grey"
+    },
+    "c28": {
+        "connected_nodes": [
+            {"name": "c27", "distance": 9, "vertex_type": "car_path"},
+            {"name": "c30", "distance": 19, "vertex_type": "car_path"},
+            {"name": "cw18", "distance": 55, "vertex_type": "car_path"}
+        ],
+        "cords_on_map": [1306.4, 477.9],
+        "starting_icon_colour": "grey"
+    },
+    "c27": {
+        "connected_nodes": [
+            {"name": "c28", "distance": 9, "vertex_type": "car_path"}
+        ],
+        "cords_on_map": [1301.2, 454.7],
+        "starting_icon_colour": "blue"
+    },
+    "c30": {
+        "connected_nodes": [
+            {"name": "c34", "distance": 25, "vertex_type": "car_path"},
+            {"name": "c28", "distance": 19, "vertex_type": "car_path"},
+            {"name": "c31", "distance": 13, "vertex_type": "car_path"}
+        ],
+        "cords_on_map": [1266.9, 471.8],
+        "starting_icon_colour": "grey"
+    },
+    "c31": {
+        "connected_nodes": [
+            {"name": "cw28", "distance": 14, "vertex_type": "car_path"},
+            {"name": "c35", "distance": 3, "vertex_type": "car_path"},
+            {"name": "c30", "distance": 13, "vertex_type": "car_path"}
+        ],
+        "cords_on_map": [1271.3, 501.6],
+        "starting_icon_colour": "grey"
+    },
+    "c35": {
+        "connected_nodes": [
+            {"name": "c31", "distance": 3, "vertex_type": "car_path"}
+        ],
+        "cords_on_map": [1256.1, 504.3],
+        "starting_icon_colour": "blue"
+    },
+    "cw28": {
+        "connected_nodes": [
+            {"name": "c31", "distance": 14, "vertex_type": "car_path"},
+            {"name": "cw29", "distance": 7, "vertex_type": "car_path"},
+            {"name": "c29", "distance": 35, "vertex_type": "car_path"}
+        ],
+        "cords_on_map": [1283.7, 540.6],
+        "starting_icon_colour": "grey"
+    },
+    "cw29": {
+        "connected_nodes": [
+            {"name": "cw28", "distance": 7, "vertex_type": "car_path"}
+        ],
+        "cords_on_map": [1266.6, 541.8],
+        "starting_icon_colour": "blue"
+    },
+    "c29": {
+        "connected_nodes": [
+            {"name": "cw28", "distance": 35, "vertex_type": "car_path"},
+            {"name": "cw18", "distance": 9, "vertex_type": "car_path"},
+            {"name": "c37", "distance": 76, "vertex_type": "car_path"}
+        ],
+        "cords_on_map": [1325.1, 596.7],
+        "starting_icon_colour": "grey"
+    },
+    "c37": {
+        "connected_nodes": [
+            {"name": "cw21", "distance": 30, "vertex_type": "car_path"},
+            {"name": "c38", "distance": 49, "vertex_type": "car_path"},
+            {"name": "c29", "distance": 76, "vertex_type": "car_path"}
+        ],
+        "cords_on_map": [1165.6, 634],
+        "starting_icon_colour": "grey"
+    },
+    "c38": {
+        "connected_nodes": [
+            {"name": "c37", "distance": 49, "vertex_type": "car_path"}
+        ],
+        "cords_on_map": [1123.6, 561.7],
+        "starting_icon_colour": "grey"
+    },
+    "cw21": {
+        "connected_nodes": [
+            {"name": "c37", "distance": 30, "vertex_type": "car_path"},
+            {"name": "cw27", "distance": 46, "vertex_type": "stairs"},
+            {"name": "c41", "distance": 60, "vertex_type": "car_path"}
+        ],
+        "cords_on_map": [1069.1, 631.8],
+        "starting_icon_colour": "grey"
+    },
+    "cw27": {
+        "connected_nodes": [
+            {"name": "cw22", "distance": 60, "vertex_type": "car_path"},
+            {"name": "cw21", "distance": 46, "vertex_type": "stairs"},
+            {"name": "c41", "distance": 16, "vertex_type": "car_path"}
+        ],
+        "cords_on_map": [978.1, 640.7],
+        "starting_icon_colour": "grey"
+    },
+    "c41": {
+        "connected_nodes": [
+            {"name": "c42", "distance": 96, "vertex_type": "car_path"},
+            {"name": "cw21", "distance": 60, "vertex_type": "car_path"},
+            {"name": "c44", "distance": 10, "vertex_type": "car_path"},
+            {"name": "cw27", "distance": 16, "vertex_type": "car_path"}
+        ],
+        "cords_on_map": [964.3, 616.9],
+        "starting_icon_colour": "grey"
+    },
+    "c42": {
+        "connected_nodes": [
+            {"name": "c41", "distance": 96, "vertex_type": "car_path"},
+            {"name": "c40", "distance": 13, "vertex_type": "car_path"},
+            {"name": "c43", "distance": 29, "vertex_type": "car_path"}
+        ],
+        "cords_on_map": [920.5, 837.5],
+        "starting_icon_colour": "grey"
+    },
+    "c43": {
+        "connected_nodes": [
+            {"name": "c42", "distance": 29, "vertex_type": "car_path"}
+        ],
+        "cords_on_map": [919.4, 884.6],
+        "starting_icon_colour": "grey"
+    },
+    "c40": {
+        "connected_nodes": [
+            {"name": "cw23", "distance": 26, "vertex_type": "car_path"},
+            {"name": "c42", "distance": 13, "vertex_type": "car_path"},
+            {"name": "cw22", "distance": 34, "vertex_type": "car_path"}
+        ],
+        "cords_on_map": [952.7, 837.9],
+        "starting_icon_colour": "grey"
+    },
+    "cw22": {
+        "connected_nodes": [
+            {"name": "c48", "distance": 4, "vertex_type": "walkway"},
+            {"name": "cw27", "distance": 60, "vertex_type": "car_path"},
+            {"name": "c40", "distance": 34, "vertex_type": "car_path"}
+        ],
+        "cords_on_map": [982.7, 768.5],
+        "starting_icon_colour": "grey"
+    },
+    "c48": {
+        "connected_nodes": [
+            {"name": "cw22", "distance": 4, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [967.4, 767.5],
+        "starting_icon_colour": "blue"
+    },
+    "cw23": {
+        "connected_nodes": [
+            {"name": "c40", "distance": 26, "vertex_type": "car_path"},
+            {"name": "w64", "distance": 40, "vertex_type": "walkway"},
+            {"name": "w65", "distance": 12, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [978.9, 887.9],
+        "starting_icon_colour": "grey"
+    },
+    "w65": {
+        "connected_nodes": [
+            {"name": "w71", "distance": 2, "vertex_type": "walkway"},
+            {"name": "w66", "distance": 10, "vertex_type": "walkway"},
+            {"name": "cw23", "distance": 12, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [973.9, 911.5],
+        "starting_icon_colour": "grey"
+    },
+    "w71": {
+        "connected_nodes": [
+            {"name": "w65", "distance": 2, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [967.7, 903.3],
+        "starting_icon_colour": "blue"
+    },
+    "w66": {
+        "connected_nodes": [
+            {"name": "w67", "distance": 5, "vertex_type": "walkway"},
+            {"name": "w65", "distance": 10, "vertex_type": "walkway"},
+            {"name": "w72", "distance": 3, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [972, 928.3],
+        "starting_icon_colour": "grey"
+    },
+    "w72": {
+        "connected_nodes": [
+            {"name": "w66", "distance": 3, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [963.6, 928.6],
+        "starting_icon_colour": "blue"
+    },
+    "w67": {
+        "connected_nodes": [
+            {"name": "w66", "distance": 5, "vertex_type": "walkway"},
+            {"name": "w68", "distance": 5, "vertex_type": "walkway"},
+            {"name": "w73", "distance": 2, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [970.4, 943.5],
+        "starting_icon_colour": "grey"
+    },
+    "w73": {
+        "connected_nodes": [
+            {"name": "w67", "distance": 2, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [961, 943.6],
+        "starting_icon_colour": "blue"
+    },
+    "w68": {
+        "connected_nodes": [
+            {"name": "w74", "distance": 2, "vertex_type": "walkway"},
+            {"name": "w69", "distance": 13, "vertex_type": "walkway"},
+            {"name": "w67", "distance": 5, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [969.4, 958.4],
+        "starting_icon_colour": "grey"
+    },
+    "w74": {
+        "connected_nodes": [
+            {"name": "w68", "distance": 2, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [960.9, 958],
+        "starting_icon_colour": "blue"
+    },
+    "w69": {
+        "connected_nodes": [
+            {"name": "w70", "distance": 7, "vertex_type": "walkway"},
+            {"name": "w68", "distance": 13, "vertex_type": "walkway"},
+            {"name": "w75", "distance": 2, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [970.4, 979.3],
+        "starting_icon_colour": "grey"
+    },
+    "w75": {
+        "connected_nodes": [
+            {"name": "w69", "distance": 2, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [963.1, 979.1],
+        "starting_icon_colour": "blue"
+    },
+    "w70": {
+        "connected_nodes": [
+            {"name": "w69", "distance": 7, "vertex_type": "walkway"},
+            {"name": "w76", "distance": 9, "vertex_type": "walkway"},
+            {"name": "w64", "distance": 22, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [972.4, 991.3],
+        "starting_icon_colour": "grey"
+    },
+    "w76": {
+        "connected_nodes": [
+            {"name": "w70", "distance": 9, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [952.9, 1000.6],
+        "starting_icon_colour": "blue"
+    },
+    "w64": {
+        "connected_nodes": [
+            {"name": "cw23", "distance": 40, "vertex_type": "walkway"},
+            {"name": "hw6", "distance": 10, "vertex_type": "walkway"},
+            {"name": "w70", "distance": 22, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1011.9, 968.4],
+        "starting_icon_colour": "grey"
+    },
+    "hw6": {
+        "connected_nodes": [
+            {"name": "hs1", "distance": 11, "vertex_type": "stairs"},
+            {"name": "w64", "distance": 10, "vertex_type": "walkway"},
+            {"name": "chw3", "distance": 90, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1018.3, 985],
+        "starting_icon_colour": "grey"
+    },
+    "hs1": {
+        "connected_nodes": [
+            {"name": "hw6", "distance": 11, "vertex_type": "stairs"},
+            {"name": "hw4", "distance": 150, "vertex_type": "shortcut"}
+        ],
+        "cords_on_map": [1038.4, 978.5],
+        "starting_icon_colour": "grey"
+    },
+    "chw3": {
+        "connected_nodes": [
+            {"name": "h1", "distance": 89, "vertex_type": "shortcut"},
+            {"name": "hw5", "distance": 17, "vertex_type": "walkway"},
+            {"name": "c39", "distance": 60, "vertex_type": "car_path"},
+            {"name": "hw6", "distance": 90, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1068.5, 1170.3],
+        "starting_icon_colour": "grey"
+    },
+    "h1": {
+        "connected_nodes": [
+            {"name": "chw3", "distance": 89, "vertex_type": "shortcut"}
+        ],
+        "cords_on_map": [909.5, 1137.2],
+        "starting_icon_colour": "blue"
+    },
+    "hw5": {
+        "connected_nodes": [
+            {"name": "w83", "distance": 11, "vertex_type": "walkway"},
+            {"name": "ch1", "distance": 51, "vertex_type": "shortcut"},
+            {"name": "chw3", "distance": 17, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1094.2, 1187.7],
+        "starting_icon_colour": "grey"
+    },
+    "w83": {
+        "connected_nodes": [
+            {"name": "hw5", "distance": 11, "vertex_type": "walkway"},
+            {"name": "w63", "distance": 13, "vertex_type": "walkway"},
+            {"name": "hw4", "distance": 78, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1124.1, 1185.8],
+        "starting_icon_colour": "grey"
+    },
+    "w63": {
+        "connected_nodes": [
+            {"name": "w83", "distance": 13, "vertex_type": "walkway"}
+        ],
+        "cords_on_map": [1123.8, 1214.6],
         "starting_icon_colour": "blue"
     }
 }
