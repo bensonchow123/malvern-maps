@@ -90,27 +90,25 @@ fetch('/static/json/nodes.json')
             });
         }
         else { // render every node
-    for (let key in nodesDb) {
-        let node = nodesDb[key];
-        let coordinates = node.cords_on_map;
-        if (coordinates.length > 0) {
-            let icon;
-            switch(node.starting_icon_colour) {
-                case 'grey':
-                    icon = greyIcon;
-                    break;
-                case "blue":
-                    icon = blueIcon;
-                    break;
+            for (let key in nodesDb) {
+                let node = nodesDb[key];
+                let coordinates = node.cords_on_map;
+                if (coordinates.length > 0) {
+                    let icon;
+                    switch(node.starting_icon_colour) {
+                        case 'grey':
+                            icon = greyIcon;
+                            break;
+                        case "blue":
+                            icon = blueIcon;
+                            break;
+                    }
+                    let marker = L.marker(coordinates, {icon: icon});
+                    marker.bindPopup('<div class="text-center">' + key + '</div>');
+                    marker.addTo(map);
+                }
             }
-            let marker = L.marker(coordinates, {icon: icon});
-            let connectedNodes = node.connected_nodes.map(JSON.stringify).join('<br>'); // convert each dict to a string
-            marker.bindPopup('<div class="text-center">' + key + '<br>Connected Nodes:<br>' + connectedNodes + '</div>');
-            marker.addTo(map);
         }
-    }
-}
-
     });
 
 if (window.innerWidth <= 800) {
@@ -119,10 +117,4 @@ if (window.innerWidth <= 800) {
     map.setView([1510, 841], 0);
 }
 
-map.on('click', function(e) {
-    var coord = e.latlng;
-    var lat = coord.lat;
-    var lng = coord.lng;
-    console.log("[" + Math.round(lat * 10) / 10 + ", " + Math.round(lng * 10) / 10 + "]")
-});
 
