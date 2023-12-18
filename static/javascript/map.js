@@ -20,10 +20,10 @@ const redIcon = new L.Icon({
         "./static/images/leaflet-icon-red.png",
     shadowUrl:
         "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
-    iconSize: [22.5, 36.9],
-    iconAnchor: [10.8, 36.9],
-    popupAnchor: [0.9, -30.6],
-    shadowSize: [36.9, 36.9]
+    iconSize: [20, 32.8],
+    iconAnchor: [9.6, 32.8],
+    popupAnchor: [0.8, -27.2],
+    shadowSize: [32.8, 32.8]
 });
 
 const greenIcon = new L.Icon({
@@ -31,10 +31,10 @@ const greenIcon = new L.Icon({
         "./static/images/leaflet-icon-green.png",
     shadowUrl:
         "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
-    iconSize: [22.5, 36.9],
-    iconAnchor: [10.8, 36.9],
-    popupAnchor: [0.9, -30.6],
-    shadowSize: [36.9, 36.9]
+    iconSize: [20, 32.8],
+    iconAnchor: [9.6, 32.8],
+    popupAnchor: [0.8, -27.2],
+    shadowSize: [32.8, 32.8]
 });
 
 const yellowIcon = new L.Icon({
@@ -42,10 +42,10 @@ const yellowIcon = new L.Icon({
         "./static/images/leaflet-icon-yellow.png",
     shadowUrl:
         "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
-    iconSize: [22.5, 36.9],
-    iconAnchor: [10.8, 36.9],
-    popupAnchor: [0.9, -30.6],
-    shadowSize: [36.9, 36.9]
+    iconSize: [15, 24.6],
+    iconAnchor: [7.2, 24.6],
+    popupAnchor: [0.6, -20.4],
+    shadowSize: [24.6, 24.6]
 });
 const greyIcon = new L.Icon({
     iconUrl:
@@ -62,10 +62,10 @@ const blueIcon = new L.Icon({
         "./static/images/leaflet-icon-blue.png",
     shadowUrl:
         "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
-    iconSize: [22.5, 36.9],
-    iconAnchor: [10.8, 36.9],
-    popupAnchor: [0.9, -30.6],
-    shadowSize: [36.9, 36.9]
+    iconSize: [20, 32.8],
+    iconAnchor: [9.6, 32.8],
+    popupAnchor: [0.8, -27.2],
+    shadowSize: [32.8, 32.8]
 });
 
 fetch('/static/json/nodes.json')
@@ -90,25 +90,27 @@ fetch('/static/json/nodes.json')
             });
         }
         else { // render every node
-            for (let key in nodesDb) {
-                let node = nodesDb[key];
-                let coordinates = node.cords_on_map;
-                if (coordinates.length > 0) {
-                    let icon;
-                    switch(node.starting_icon_colour) {
-                        case 'grey':
-                            icon = greyIcon;
-                            break;
-                        case "blue":
-                            icon = blueIcon;
-                            break;
-                    }
-                    let marker = L.marker(coordinates, {icon: icon});
-                    marker.bindPopup('<div class="text-center">' + key + '</div>');
-                    marker.addTo(map);
-                }
+    for (let key in nodesDb) {
+        let node = nodesDb[key];
+        let coordinates = node.cords_on_map;
+        if (coordinates.length > 0) {
+            let icon;
+            switch(node.starting_icon_colour) {
+                case 'grey':
+                    icon = greyIcon;
+                    break;
+                case "blue":
+                    icon = blueIcon;
+                    break;
             }
+            let marker = L.marker(coordinates, {icon: icon});
+            let connectedNodes = node.connected_nodes.map(JSON.stringify).join('<br>'); // convert each dict to a string
+            marker.bindPopup('<div class="text-center">' + key + '<br>Connected Nodes:<br>' + connectedNodes + '</div>');
+            marker.addTo(map);
         }
+    }
+}
+
     });
 
 if (window.innerWidth <= 800) {

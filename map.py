@@ -135,8 +135,8 @@ def main_map_page():
             if shortest_path_calculation_form.validate_on_submit():
                 form = shortest_path_calculation_form
 
-                starting_point = form.starting_point.data
-                destination= form.destination.data
+                starting_point = form.starting_point.data.casefold()
+                destination= form.destination.data.casefold()
 
                 remove_stairs, allow_shortcuts = form.remove_stairs.data, form.allow_shortcuts.data
                 only_walkways, only_car_paths = form.only_walkways.data, form.only_car_paths.data
@@ -170,12 +170,13 @@ def main_map_page():
                         only_walkways=only_walkways,
                         only_car_paths=only_car_paths
                     )
+                    print(path)
                     return handle_render(
                         shortest_path_details=shortest_path_details,
                         shortest_path_calculation_results=path,
                         flash_category="success",
                         flash_message_content=Markup(
-                            f'Shortest path is shown on map, it have a distance of {distance}! <br>'
+                            f'Shortest path is shown on map, it have a distance of {distance} meters! <br>'
                             f'<a href="#" data-bs-toggle="modal" data-bs-target="#shortestPathDetailsModal">Click here for more details!</a>'
                         )
                     )
@@ -189,7 +190,7 @@ def main_map_page():
                         flash_message_content="Staff login required to report an event!"
                     )
 
-                node = report_event_form.node_to_report.data
+                node = report_event_form.node_to_report.data.casefold()
                 description = report_event_form.description.data
                 append_event(node, description)
                 return handle_render(
