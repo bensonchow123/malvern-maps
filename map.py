@@ -45,11 +45,12 @@ def fetch_data_periodically():
         print(thirty_newest_events)
         sleep(60)
 
-def append_event(node, description):
+def append_event(node, description, reporter_email):
     reported_events_db.insert_one({
         "timestamp": int(datetime.utcnow().timestamp()),
         "node": node,
-        "description": description
+        "description": description,
+        "reported_by": reporter_email
     })
 
 def get_reported_events():
@@ -192,7 +193,7 @@ def main_map_page():
 
                 node = report_event_form.node_to_report.data.casefold()
                 description = report_event_form.description.data
-                append_event(node, description)
+                append_event(node, description, g.email)
                 return handle_render(
                     open_sidebar=True,
                     flash_category="success",
