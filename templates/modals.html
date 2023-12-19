@@ -13,7 +13,9 @@
                                 <h5 class="card-title">At node {{ event.node }}</h5>
                                 <div class="text-muted mb-0" style="font-size: 0.75em;">{{ event.timestamp|datetimeformat }}</div>
                                 <p class="card-text mt-1">{{ event.description }}</p>
-                                <div class="text-muted" style="font-size: 0.75em;">ID: {{ event._id }} </div>
+                                <div class="text-muted" style="font-size: 0.75em;">
+                                    ID: {{ event._id }} <br> Reported by: {{ event.reported_by }}
+                                </div>
                             </div>
                         </div>
                     {% endfor %}

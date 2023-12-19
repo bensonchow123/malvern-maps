@@ -59,7 +59,7 @@ def login():
                 if check_if_admin(form.email.data):
                     session['admin'] = True
                 flash("You logged in successfully", "success")
-                flash("From now on security checks will cause significant longer load times due to no funding.","warning")
+                flash("From now on security checks will cause longer load times due to no funding.","warning")
                 return redirect(url_for('map.main_map_page'))
 
     return render_template('login.html', form=form)
