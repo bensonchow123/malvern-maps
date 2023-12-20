@@ -29,7 +29,7 @@
                 <button class="btn btn-success btn-sm" data-bs-target="#filterEventsModal" data-bs-toggle="modal" data-bs-dismiss="modal" >Filter Events</button>
                 {% if g.email %}
                     <button class="btn btn-secondary btn-sm" data-bs-target="#removeReportedEventModal" data-bs-toggle="modal" data-bs-dismiss="modal">Remove Event</button>
-                    <button class="btn btn-danger btn-sm" data-bs-target="#reportEventModal" data-bs-toggle="modal" data-bs-dismiss="modal">Report Event</button>
+                    <button class="btn btn-danger btn-sm" data-bs-target="#reportEventModal" data-bs-toggle="modal" data-bs-dismiss="modal">Report Event Modal</button>
                 {% endif %}
             </div>
         </div>
@@ -39,7 +39,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Report event</h5>
+                <h5 class="modal-title">Report event Modal</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -180,7 +180,7 @@
             <div class="modal-body">
             <p >Node IDs indicate path types: c for car paths, h for shortcuts, s for stairs, w for walkways.</p>
             <p>The number following the letters in the ID represents its sequence in the node group.</p>
-            <p>E.g. To find chsw1, select car paths and input 1.</p>
+            <p>E.g. To find chsw1, select car paths and input 1, or select stairs and input 1</p>
                 <form method="POST" action="{{ url_for('map.main_map_page')}}">
                     {{ filter_events_form.hidden_tag() }}
                     <fieldset>
