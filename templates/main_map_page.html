@@ -8,14 +8,17 @@
 {% endblock %}
 
 {% block body %}
+    <!-- map div -->
     <div id="map"></div>
+    <!-- offcanvas sidebar activation button -->
     <button class="btn btn-primary btn-sm" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasSidebar" aria-controls="offcanvasSidebar">
         <img class="sidebar-button-image" src="../static/images/sidebar_button.png" alt="Sidebar icon"/>
     </button>
+    <!-- refresh button -->
     <button type="button" class="btn btn-secondary btn-sm float-end" onclick="window.location.href=window.location.href">
         <img class="refresh-button-image" src="../static/images/refresh.png" alt="Refresh icon"/>
     </button>
-
+    <!-- handle flask flash() messages -->
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             {% for category, message in messages %}
@@ -26,6 +29,7 @@
             {% endfor %}
         {% endif %}
     {% endwith %}
+    <!-- offcanvas sidebar -->
     <div class="offcanvas offcanvas-start {{ 'show' if open_sidebar else '' }} hidden-scrollbar" tabindex="-1" data-bs-backdrop="false" id="offcanvasSidebar" aria-labelledby="offcanvasSidebarLabel">
         <button class="btn btn-primary btn-sm mb-2" type="button" data-bs-toggle="offcanvas" aria-label="Close">
             <img class="sidebar-button-image offcanvas-button-image-left" src="../static/images/sidebar_button.png" alt="button image"/>

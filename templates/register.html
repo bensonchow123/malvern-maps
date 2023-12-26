@@ -4,9 +4,11 @@
 {% endblock %}
 
 {% block body %}
+    <!-- return to map button -->
     <div class="d-flex justify-content-end">
         <a href="{{ url_for('map.main_map_page')}}" class="btn btn-primary btn-lg rounded-0">Return to map</a>
     </div>
+    <!-- handle flask flash() messages -->
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             {% for category, message in messages %}
@@ -17,6 +19,7 @@
             {% endfor %}
         {% endif %}
     {% endwith %}
+    <!-- register form -->
     <div class="d-flex justify-content-center mt-5">
         <form method="POST" action="{{ url_for('report_system.register')}}">
             {{ form.hidden_tag() }}
