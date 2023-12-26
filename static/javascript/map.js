@@ -116,5 +116,3 @@ if (window.innerWidth <= 800) {
 } else {
     map.setView([1510, 841], 0);
 }
-
-

@@ -1034,7 +1034,7 @@
         "connected_nodes": [
             {"name": "w61", "distance": 19, "vertex_type": "walkway"}
         ],
-        "cords_on_map": [1274.1, 1196.5],
+        "cords_on_map": [1265.6, 1220.6],
         "starting_icon_colour": "blue"
     },
     "hw4": {
