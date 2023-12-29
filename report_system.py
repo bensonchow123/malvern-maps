@@ -125,11 +125,11 @@ def verify_email(token):
 
     except SignatureExpired:
         flash("Your token is expired, please register your account again", "danger")
-        return redirect(url_for('register'))
+        return redirect(url_for('report_system.register'))
 
     except BadTimeSignature:
         flash("Your token is invalid, please register your account again", "danger")
-        return redirect(url_for('register'))
+        return redirect(url_for('report_system.register'))
 
 @report_system.route('/password_reset',  methods=['GET', 'POST'])
 def password_reset():
@@ -176,11 +176,11 @@ def verify_password_reset(token):
 
     except SignatureExpired:
         flash("Your token is expired, please reset your password again", "danger")
-        return redirect(url_for('password_reset'))
+        return redirect(url_for('report_system.password_reset'))
 
     except BadTimeSignature:
         flash("Your token is invalid, please reset your password again", "danger")
-        return redirect(url_for('password_reset'))
+        return redirect(url_for('report_system.password_reset'))
 
 @report_system.route('/logout')
 def logout():
